@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/services/authentication.dart';
 
@@ -114,7 +115,13 @@ class _LoginPageState extends State<LoginPage> {
                       if (!currentFocus.hasPrimaryFocus) {
                         currentFocus.unfocus();
                       }
-                      signIn();
+                      final result = EmailValidator.validate(email);
+                      if (result == true) {
+                        print("Valid Email");
+                      } else {
+                        print("Invalid Email");
+                      }
+                      //signIn();
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(20.0),
