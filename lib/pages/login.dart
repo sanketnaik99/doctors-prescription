@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/services/authentication.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,17 +9,43 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String email;
   String password;
+  Auth auth = Auth();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Future<bool> signIn() async {
+    final String user = await auth.signIn(email, password);
+    if (user != null) {
+      final bool isVerified = await auth.isEmailVerified();
+      if (isVerified) {
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text('Login Successful => $user'),
+          ),
+        );
+        return true;
+      } else {
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text('Please verify your email!'),
+          ),
+        );
+        return false;
+      }
+    } else {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('Login Failed!'),
+        ),
+      );
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      key: _scaffoldKey,
       body: Form(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,6 +109,12 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       print("Login clicked");
                       //print(validateEmail(email));
+                      // Dismiss Keyboard
+                      FocusScopeNode currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus) {
+                        currentFocus.unfocus();
+                      }
+                      signIn();
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(20.0),

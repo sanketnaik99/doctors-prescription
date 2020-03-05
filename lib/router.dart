@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:flutter_practice/main.dart';
+import 'package:flutter_practice/pages/login.dart';
+import 'package:flutter_practice/pages/registration.dart';
 
 class FluroRouter {
   static Router router = Router();
