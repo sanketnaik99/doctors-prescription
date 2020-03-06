@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/services/authentication.dart';
+import 'package:toggle_bar_button/toggle_bar_button.dart';
 
 // Register Page starts from here
 class RegisterPage extends StatefulWidget {
@@ -36,7 +37,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   style:
                       TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold)),
             ),
-//
+            Container(
+              child: ToggleBarButton(
+                tabItems: ["Doctor", "Patient"],
+                tabContentItems: <Widget>[
+                  Center(child: Text("Doctor")),
+                  Center(child: Text("Patient")),
+                ],
+              ),
+            ),
             Container(
                 padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
                 child: Column(
