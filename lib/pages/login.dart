@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/services/authentication.dart';
+import 'package:toggle_bar_button/toggle_bar_button.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -65,6 +66,15 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           fontSize: 40.0, fontWeight: FontWeight.bold)),
                 ),
+//                Container(
+//                  child: ToggleBarButton(
+//                    tabItems: ["Doctor", "Patient"],
+//                    tabContentItems: <Widget>[
+//                      Center(child: Text("Doctor")),
+//                      Center(child: Text("Patient")),
+//                    ],
+//                  ),
+//                ),
                 Container(
                   padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
                   child: Column(children: <Widget>[

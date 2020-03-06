@@ -24,7 +24,7 @@ dependencies:
   cloud_firestore: ^0.13.4
   provider: ^4.0.4
   email_validator: ^1.0.4
-
+  toggle_bar_button: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
