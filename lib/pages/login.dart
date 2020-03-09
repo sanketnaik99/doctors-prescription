@@ -8,6 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var _formKey = GlobalKey<FormState>();
   String email;
   String password;
   Auth auth = Auth();
@@ -64,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       body: Form(
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -132,8 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     SizedBox(height: 20.0),
-                    TextField(
+                    TextFormField(
                       keyboardType: TextInputType.visiblePassword,
+                      // ignore: missing_return
+                      validator: (String value) {
+                        return validatePassword(value);
+                      },
                       decoration: InputDecoration(
                           labelText: 'PASSWORD',
                           labelStyle: TextStyle(
@@ -145,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       obscureText: true,
                       onChanged: (val) => password = val,
-                      //validator: passwordValidator,
+
                     ),
                   ]),
                 ),
@@ -163,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                         currentFocus.unfocus();
                       }
                       final result = EmailValidator.validate(email);
+
                       if (result == true) {
                         print("Valid Email");
                       } else {
