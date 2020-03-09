@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/services/authentication.dart';
-import 'package:toggle_bar_button/toggle_bar_button.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -43,6 +42,22 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+// Password Validation
+  String validatePassword(String value) {
+    Pattern pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = new RegExp(pattern);
+    print(value);
+    if (value.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value))
+        return 'Enter valid password';
+      else
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,13 +81,34 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           fontSize: 40.0, fontWeight: FontWeight.bold)),
                 ),
+                SizedBox(height: 10),
                 Container(
-                  child: ToggleBarButton(
-                    tabItems: ["Doctor", "Patient"],
-                    tabContentItems: <Widget>[
-                      Center(child: Text("Doctor")),
-                      Center(child: Text("Patient")),
+                  child: ButtonBar(
+                    children: <Widget>[
+                      RaisedButton(
+                        color: Colors.green,
+                        onPressed: () {
+                          print("Doctor");
+                        },
+                        child: Text(
+                          "Doctor",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      RaisedButton(
+                        child: Text("Patient"),
+                        color: Colors.green,
+                        onPressed: () {
+                          print("Patient");
+                        },
+                      )
                     ],
+                    alignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                   ),
                 ),
                 Container(
@@ -106,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.grey),
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.green))),
+
                       obscureText: true,
                       onChanged: (val) => password = val,
                       //validator: passwordValidator,
@@ -194,10 +231,10 @@ class _LoginPageState extends State<LoginPage> {
       return null;
   }
 
-  String validatePassword(String value) {
-    if (value == null) {
-      return "Enter the Password";
-    }
-    value == "hello" ? print('Hello') : print('Not Hello');
-  }
+//  String validatePassword(String value) {
+//    if (value == null) {
+//      return "Enter the Password";
+//    }
+//    value == "hello" ? print('Hello') : print('Not Hello');
+//  }
 }
