@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                         currentFocus.unfocus();
                       }
                       final result = EmailValidator.validate(email);
-
+                      print(_formKey.currentState.validate());
                       if (result == true) {
                         print("Valid Email");
                         signIn();
