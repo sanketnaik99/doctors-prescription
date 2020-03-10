@@ -47,17 +47,22 @@ class _RegisterPageState extends State<RegisterPage> {
                       print("Doctor");
                     },
                     child: Text(
-                      "Doctor",
+                      "DOCTOR",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
                   RaisedButton(
-                    child: Text("Patient"),
-                    color: Colors.green,
+                    child: Text(
+                      "PATIENT",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                    color: Colors.grey,
                     onPressed: () {
                       print("Patient");
                     },

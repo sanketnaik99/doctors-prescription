@@ -43,22 +43,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-// Password Validation
-  String validatePassword(String value) {
-    Pattern pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regex = new RegExp(pattern);
-    print(value);
-    if (value.isEmpty) {
-      return 'Please enter password';
-    } else {
-      if (!regex.hasMatch(value))
-        return 'Enter valid password';
-      else
-        return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,17 +77,21 @@ class _LoginPageState extends State<LoginPage> {
                           print("Doctor");
                         },
                         child: Text(
-                          "Doctor",
+                          "DOCTOR",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                           ),
                         ),
                       ),
-                      SizedBox(height: 25),
                       RaisedButton(
-                        child: Text("Patient"),
-                        color: Colors.green,
+                        child: Text(
+                          "PATIENT",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: Colors.grey,
                         onPressed: () {
                           print("Patient");
                         },
@@ -120,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           labelText: 'EMAIL',
-                          //helperText: 'Enter the valid Email',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
@@ -133,12 +120,23 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 10.0),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
                       // ignore: missing_return
                       validator: (String value) {
-                        return validatePassword(value);
+                        Pattern pattern =
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                        RegExp regex = new RegExp(pattern);
+                        print(value);
+                        if (value.isEmpty) {
+                          print('Please enter password');
+                        } else {
+                          if (!regex.hasMatch(value))
+                            print('Enter valid password');
+                          else
+                            return null;
+                        }
                       },
                       decoration: InputDecoration(
                           labelText: 'PASSWORD',
@@ -151,12 +149,10 @@ class _LoginPageState extends State<LoginPage> {
 
                       obscureText: true,
                       onChanged: (val) => password = val,
-
                     ),
                   ]),
                 ),
-                SizedBox(height: 20.0),
-                SizedBox(height: 20.0),
+                SizedBox(height: 40.0),
                 Container(
                   height: 40.0,
                   child: GestureDetector(
@@ -184,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       elevation: 7.0,
                       child: Center(
                         child: Text(
-                          'Login',
+                          'LOGIN',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -208,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                       elevation: 7.0,
                       child: Center(
                         child: Text(
-                          'Register',
+                          'REGISTER',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -237,11 +233,4 @@ class _LoginPageState extends State<LoginPage> {
     else
       return null;
   }
-
-//  String validatePassword(String value) {
-//    if (value == null) {
-//      return "Enter the Password";
-//    }
-//    value == "hello" ? print('Hello') : print('Not Hello');
-//  }
 }
