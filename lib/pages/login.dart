@@ -168,10 +168,10 @@ class _LoginPageState extends State<LoginPage> {
 
                       if (result == true) {
                         print("Valid Email");
+                        signIn();
                       } else {
                         print("Invalid Email");
                       }
-                      //signIn();
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(20.0),
