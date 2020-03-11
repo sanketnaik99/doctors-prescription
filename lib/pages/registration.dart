@@ -9,6 +9,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool isButtonDisabled1 = true;
+  bool isButtonDisabled2 = true;
+  String status;
+  bool pressAttention1 = false;
+  bool pressAttention2 = false;
   String username, email, password, confirmPassword;
   Auth auth = Auth();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -38,40 +43,34 @@ class _RegisterPageState extends State<RegisterPage> {
                       TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold)),
             ),
             SizedBox(height: 20.0),
-            Container(
-              child: ButtonBar(
-                children: <Widget>[
-                  RaisedButton(
-                    color: Colors.green,
-                    onPressed: () {
-                      print("Doctor");
-                    },
-                    child: Text(
-                      "DOCTOR",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                  RaisedButton(
-                    child: Text(
-                      "PATIENT",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                    color: Colors.grey,
-                    onPressed: () {
-                      print("Patient");
-                    },
-                  )
-                ],
-                alignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-              ),
-            ),
+//            Container(
+//              child: ButtonBar(
+//                children: <Widget>[
+//                  RaisedButton(
+//                    color: Colors.green,
+//                    child: Text(
+//                      "DOCTOR",
+//                      style: TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 15,
+//                      ),
+//                    ),
+//                  ),
+//                  RaisedButton(
+//                    child: Text(
+//                      "PATIENT",
+//                      style: TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 15,
+//                      ),
+//                    ),
+//                    color: Colors.green,
+//                  )
+//                ],
+//                alignment: MainAxisAlignment.center,
+//                mainAxisSize: MainAxisSize.min,
+//              ),
+//            ),
             Container(
                 padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
                 child: Column(
@@ -202,9 +201,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-
-//class RegisterPage extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return
-//}

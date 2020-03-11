@@ -9,9 +9,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
+
+  List<bool> isSelected;
+  bool pressAttention1 = false;
+  bool pressAttention2 = false;
+  String status;
   String email;
   String password;
   Auth auth = Auth();
+  bool _loading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<bool> signIn() async {
@@ -44,6 +50,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    isSelected = [true, false];
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -67,154 +80,212 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                           fontSize: 40.0, fontWeight: FontWeight.bold)),
                 ),
-                SizedBox(height: 10),
-                Container(
-                  child: ButtonBar(
-                    children: <Widget>[
-                      RaisedButton(
-                        color: Colors.green,
-                        onPressed: () {
-                          print("Doctor");
-                        },
-                        child: Text(
-                          "DOCTOR",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        child: Text(
-                          "PATIENT",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        color: Colors.grey,
-                        onPressed: () {
-                          print("Patient");
-                        },
-                      )
-                    ],
-                    alignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                  child: Column(children: <Widget>[
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          labelText: 'EMAIL',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green))),
-                      onChanged: (String val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 10.0),
-                    TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      // ignore: missing_return
-                      validator: (String value) {
-                        Pattern pattern =
-                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-                        RegExp regex = new RegExp(pattern);
-                        print(value);
-                        if (value.isEmpty) {
-                          print('Please enter password');
-                        } else {
-                          if (!regex.hasMatch(value))
-                            print('Enter valid password');
-                          else
-                            return null;
-                        }
-                      },
-                      decoration: InputDecoration(
-                          labelText: 'PASSWORD',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green))),
-
-                      obscureText: true,
-                      onChanged: (val) => password = val,
-                    ),
-                  ]),
-                ),
-                SizedBox(height: 40.0),
-                Container(
-                  height: 40.0,
-                  child: GestureDetector(
-                    onTap: () {
-                      print("Login clicked");
-                      //print(validateEmail(email));
-                      // Dismiss Keyboard
-                      FocusScopeNode currentFocus = FocusScope.of(context);
-                      if (!currentFocus.hasPrimaryFocus) {
-                        currentFocus.unfocus();
-                      }
-                      final result = EmailValidator.validate(email);
-                      print(_formKey.currentState.validate());
-                      if (result == true) {
-                        print("Valid Email");
-                        signIn();
-                      } else {
-                        print("Invalid Email");
-                      }
-                    },
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      shadowColor: Colors.greenAccent,
-                      color: Colors.green,
-                      elevation: 7.0,
-                      child: Center(
-                        child: Text(
-                          'LOGIN',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Container(
-                  height: 40.0,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'register');
-                    },
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
-                      //shadowColor: Colors.greenAccent,
-                      //color: Colors.green,
-                      elevation: 7.0,
-                      child: Center(
-                        child: Text(
-                          'REGISTER',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                SizedBox(height: 20),
+//                Container(
+//                  child: Column(
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                    children: <Widget>[
+//                      ToggleButtons(
+//                        //borderColor: Colors.black,
+//                        color: Colors.black,
+//                        fillColor: Colors.green,
+//
+//                        borderWidth: 1,
+//                        //selectedBorderColor: Colors.black,
+//                        selectedColor: Colors.white,
+//                        borderRadius: BorderRadius.circular(0),
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: Text(
+//                              'DOCTOR',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                          ),
+//                          Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: Text(
+//                              'PATIENT',
+//                              style: TextStyle(fontSize: 16),
+//                            ),
+//                          ),
+//                        ],
+//                        onPressed: (int index) {
+//                          setState(() {
+//                            for (int i = 0; i < isSelected.length; i++) {
+//                              isSelected[i] = i == index;
+//                            }
+//                          });
+//                        },
+//                        isSelected: isSelected,
+//                      ),
+//                    ],
+//                  ),
+//                ),
               ],
+            ),
+            Container(
+              child: ButtonBar(
+                children: <Widget>[
+                  RaisedButton(
+                    color: pressAttention1 ? Colors.grey : Colors.green,
+                    onPressed: () {
+                      status = "Doctor";
+                      print(status);
+                      setState(() {
+                        pressAttention2 = !pressAttention2;
+                      });
+                    },
+                    child: Text(
+                      "DOCTOR",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                  RaisedButton(
+                    child: Text(
+                      "PATIENT",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    color: pressAttention2 ? Colors.grey : Colors.green,
+                    onPressed: () {
+                      setState(() {
+                        pressAttention1 = !pressAttention1;
+                        status = "Patient";
+                        print(status);
+                      });
+                    },
+                  )
+                ],
+                alignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: Column(children: <Widget>[
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      labelText: 'EMAIL',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green))),
+                  onChanged: (String val) {
+                    setState(() {
+                      email = val;
+                    });
+                  },
+                ),
+                SizedBox(height: 10.0),
+                TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
+                  // ignore: missing_return
+                  validator: (String value) {
+                    Pattern pattern =
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                    RegExp regex = new RegExp(pattern);
+                    print(value);
+                    if (value.isEmpty) {
+                      print('Please enter password');
+                    } else {
+                      if (!regex.hasMatch(value))
+                        print('Enter valid password');
+                      else
+                        return null;
+                    }
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'PASSWORD',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green))),
+
+                  obscureText: true,
+                  onChanged: (val) => password = val,
+                ),
+              ]),
+            ),
+            SizedBox(height: 20.0),
+            Container(
+              child: Center(
+                child: _loading ? LinearProgressIndicator() : Text(""),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Container(
+              height: 40.0,
+              child: GestureDetector(
+                onTap: () {
+                  print("Login clicked");
+                  setState(() {
+                    _loading = !_loading;
+                  });
+                  //print(validateEmail(email));
+                  // Dismiss Keyboard
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                  final result = EmailValidator.validate(email);
+                  print(_formKey.currentState.validate());
+                  if (result == true) {
+                    print("Valid Email");
+                    signIn();
+                  } else {
+                    print("Invalid Email");
+                  }
+                },
+                child: Material(
+                  borderRadius: BorderRadius.circular(20.0),
+                  shadowColor: Colors.greenAccent,
+                  color: Colors.green,
+                  elevation: 7.0,
+                  child: Center(
+                    child: Text(
+                      'LOGIN',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Container(
+              height: 40.0,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, 'register');
+                },
+                child: Material(
+                  borderRadius: BorderRadius.circular(20.0),
+                  //shadowColor: Colors.greenAccent,
+                  //color: Colors.green,
+                  elevation: 7.0,
+                  child: Center(
+                    child: Text(
+                      'REGISTER',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat'),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -229,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Enter Valid Emaill';
     else
       return null;
   }
