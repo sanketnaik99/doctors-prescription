@@ -10,7 +10,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
 
-  List<bool> isSelected;
   String status;
   String email;
   String password;
@@ -48,13 +47,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() {
-    isSelected = [true, false];
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -62,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
       body: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -79,47 +70,6 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 40.0, fontWeight: FontWeight.bold)),
                 ),
                 SizedBox(height: 20),
-//                Container(
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      ToggleButtons(
-//                        //borderColor: Colors.black,
-//                        color: Colors.black,
-//                        fillColor: Colors.green,
-//
-//                        borderWidth: 1,
-//                        //selectedBorderColor: Colors.black,
-//                        selectedColor: Colors.white,
-//                        borderRadius: BorderRadius.circular(0),
-//                        children: <Widget>[
-//                          Padding(
-//                            padding: const EdgeInsets.all(8.0),
-//                            child: Text(
-//                              'DOCTOR',
-//                              style: TextStyle(fontSize: 16),
-//                            ),
-//                          ),
-//                          Padding(
-//                            padding: const EdgeInsets.all(8.0),
-//                            child: Text(
-//                              'PATIENT',
-//                              style: TextStyle(fontSize: 16),
-//                            ),
-//                          ),
-//                        ],
-//                        onPressed: (int index) {
-//                          setState(() {
-//                            for (int i = 0; i < isSelected.length; i++) {
-//                              isSelected[i] = i == index;
-//                            }
-//                          });
-//                        },
-//                        isSelected: isSelected,
-//                      ),
-//                    ],
-//                  ),
-//                ),
               ],
             ),
             Container(
@@ -131,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       print(status);
                       setState(() {
                         status = "Doctor";
+                        print(status);
                       });
                     },
                     child: Text(
