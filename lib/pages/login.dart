@@ -11,8 +11,6 @@ class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
 
   List<bool> isSelected;
-  bool pressAttention1 = false;
-  bool pressAttention2 = false;
   String status;
   String email;
   String password;
@@ -128,12 +126,11 @@ class _LoginPageState extends State<LoginPage> {
               child: ButtonBar(
                 children: <Widget>[
                   RaisedButton(
-                    color: pressAttention1 ? Colors.grey : Colors.green,
+                    color: status == "Doctor" ? Colors.green : Colors.grey,
                     onPressed: () {
-                      status = "Doctor";
                       print(status);
                       setState(() {
-                        pressAttention2 = !pressAttention2;
+                        status = "Doctor";
                       });
                     },
                     child: Text(
@@ -151,10 +148,9 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                       ),
                     ),
-                    color: pressAttention2 ? Colors.grey : Colors.green,
+                    color: status == "Patient" ? Colors.green : Colors.grey,
                     onPressed: () {
                       setState(() {
-                        pressAttention1 = !pressAttention1;
                         status = "Patient";
                         print(status);
                       });
