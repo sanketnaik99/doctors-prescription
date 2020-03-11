@@ -9,11 +9,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  bool isButtonDisabled1 = true;
-  bool isButtonDisabled2 = true;
   String status;
-  bool pressAttention1 = false;
-  bool pressAttention2 = false;
   String username, email, password, confirmPassword;
   Auth auth = Auth();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -43,34 +39,46 @@ class _RegisterPageState extends State<RegisterPage> {
                       TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold)),
             ),
             SizedBox(height: 20.0),
-//            Container(
-//              child: ButtonBar(
-//                children: <Widget>[
-//                  RaisedButton(
-//                    color: Colors.green,
-//                    child: Text(
-//                      "DOCTOR",
-//                      style: TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 15,
-//                      ),
-//                    ),
-//                  ),
-//                  RaisedButton(
-//                    child: Text(
-//                      "PATIENT",
-//                      style: TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 15,
-//                      ),
-//                    ),
-//                    color: Colors.green,
-//                  )
-//                ],
-//                alignment: MainAxisAlignment.center,
-//                mainAxisSize: MainAxisSize.min,
-//              ),
-//            ),
+            Container(
+              child: ButtonBar(
+                children: <Widget>[
+                  RaisedButton(
+                    color: status == "Doctor" ? Colors.green : Colors.grey,
+                    child: Text(
+                      "DOCTOR",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        status = "Doctor";
+                        print(status);
+                      });
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text(
+                      "PATIENT",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                    color: status == "Patient" ? Colors.green : Colors.grey,
+                    onPressed: () {
+                      setState(() {
+                        status = 'Patient';
+                        print(status);
+                      });
+                    },
+                  )
+                ],
+                alignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+              ),
+            ),
             Container(
                 padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
                 child: Column(
@@ -165,20 +173,28 @@ class _RegisterPageState extends State<RegisterPage> {
                             if (!currentFocus.hasPrimaryFocus) {
                               currentFocus.unfocus();
                             }
-                            bool result = await signUp();
-                            if (result == true) {
+                            if (password != confirmPassword) {
                               _scaffoldKey.currentState.showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                      'Registration successful! Please check your email.'),
+                                  content: Text('Passwords do not match.'),
                                 ),
                               );
                             } else {
-                              _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(
-                                  content: Text('Registration Error!'),
-                                ),
-                              );
+                              bool result = await signUp();
+                              if (result == true) {
+                                _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Registration successful! Please check your email.'),
+                                  ),
+                                );
+                              } else {
+                                _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text('Registration Error!'),
+                                  ),
+                                );
+                              }
                             }
                           },
                           child: Center(
