@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<bool> signIn() async {
     final String user = await auth.signIn(email, password);
     if (user != null) {
+      print(user);
       final bool isVerified = await auth.isEmailVerified();
       if (isVerified) {
         _scaffoldKey.currentState.showSnackBar(
