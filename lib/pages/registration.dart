@@ -13,6 +13,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String status;
   String username, email, password, confirmPassword;
+  bool _loading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -148,66 +149,86 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                     SizedBox(height: 40.0),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                      height: 40.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () async {
-                            // Dismiss Keyboard
-                            FocusScopeNode currentFocus =
-                                FocusScope.of(context);
-                            if (!currentFocus.hasPrimaryFocus) {
-                              currentFocus.unfocus();
-                            }
-                            if (password != confirmPassword) {
-                              _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(
-                                  content: Text('Passwords do not match.'),
+                    _loading
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                            child: Container(
+                              child: Center(
+                                child: LinearProgressIndicator(),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                            height: 40.0,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(20.0),
+                              shadowColor: Colors.greenAccent,
+                              color: Colors.green,
+                              elevation: 7.0,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    _loading = true;
+                                  });
+                                  // Dismiss Keyboard
+                                  FocusScopeNode currentFocus =
+                                      FocusScope.of(context);
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  if (password != confirmPassword) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Passwords do not match.'),
+                                      ),
+                                    );
+                                    setState(() {
+                                      _loading = false;
+                                    });
+                                  } else {
+                                    AuthenticationResult result =
+                                        await authBloc.signUp(
+                                            email: email,
+                                            password: password,
+                                            username: username,
+                                            type: status);
+                                    if (result.result == true) {
+                                      _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text('${result.message}'),
+                                        ),
+                                      );
+                                      Future.delayed(Duration(seconds: 2), () {
+                                        Navigator.pushReplacementNamed(
+                                            context, 'login');
+                                      });
+                                    } else {
+                                      _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text('${result.message}'),
+                                        ),
+                                      );
+                                      setState(() {
+                                        _loading = false;
+                                      });
+                                    }
+                                  }
+                                },
+                                child: Center(
+                                  child: Text(
+                                    'REGISTER',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Montserrat'),
+                                  ),
                                 ),
-                              );
-                            } else {
-                              AuthenticationResult result =
-                                  await authBloc.signUp(
-                                      email: email,
-                                      password: password,
-                                      username: username,
-                                      type: status);
-                              if (result.result == true) {
-                                _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(
-                                    content: Text('${result.message}'),
-                                  ),
-                                );
-                                Future.delayed(Duration(seconds: 2), () {
-                                  Navigator.pushReplacementNamed(
-                                      context, 'login');
-                                });
-                              } else {
-                                _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(
-                                    content: Text('${result.message}'),
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                          child: Center(
-                            child: Text(
-                              'REGISTER',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 )),
           ],

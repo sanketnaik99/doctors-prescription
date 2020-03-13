@@ -137,98 +137,115 @@ class _LoginPageState extends State<LoginPage> {
               ]),
             ),
             SizedBox(height: 20.0),
-//            Container(
-//              child: Center(
-//                child: _loading ? LinearProgressIndicator() : Text(""),
-//              ),
-//            ),
-//            SizedBox(height: 20.0),
-            Container(
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-              height: 40.0,
-              child: GestureDetector(
-                onTap: () async {
-                  print("Login clicked");
-
-                  setState(() {
-                    _loading = !_loading;
-                  });
-                  //print(validateEmail(email));
-                  // Dismiss Keyboard
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
-                  final result = EmailValidator.validate(email);
-                  print(_formKey.currentState.validate());
-                  if (result == false) {
-                    _scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content: Text('Email is Invalid!'),
+            _loading
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                    child: Container(
+                      child: Center(
+                        child: LinearProgressIndicator(),
                       ),
-                    );
-                  } else {
-                    AuthenticationResult result = await authBloc.signIn(
-                        email: email, password: password, type: status);
-                    if (result.result == true) {
-                      //Login Successful
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(
-                          content: Text('${result.message}'),
-                        ),
-                      );
-                    } else {
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(
-                          content: Text('${result.message}'),
-                        ),
-                      );
-                    }
-                  }
-                  Navigator.pushNamed(context, 'home');
-                },
-                child: Material(
-                  borderRadius: BorderRadius.circular(20.0),
-                  shadowColor: Colors.greenAccent,
-                  color: Colors.green,
-                  elevation: 7.0,
-                  child: Center(
-                    child: Text(
-                      'LOGIN',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat'),
                     ),
+                  )
+                : Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                        height: 40.0,
+                        child: GestureDetector(
+                          onTap: () async {
+                            print("Login clicked");
+
+                            setState(() {
+                              _loading = true;
+                            });
+                            //print(validateEmail(email));
+                            // Dismiss Keyboard
+                            FocusScopeNode currentFocus =
+                                FocusScope.of(context);
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            final result = EmailValidator.validate(email);
+                            print(_formKey.currentState.validate());
+                            if (result == false) {
+                              _scaffoldKey.currentState.showSnackBar(
+                                SnackBar(
+                                  content: Text('Email is Invalid!'),
+                                ),
+                              );
+                              setState(() {
+                                _loading = false;
+                              });
+                            } else {
+                              AuthenticationResult result =
+                                  await authBloc.signIn(
+                                      email: email,
+                                      password: password,
+                                      type: status);
+                              if (result.result == true) {
+                                //Login Successful
+                                _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text('${result.message}'),
+                                  ),
+                                );
+                                Navigator.pushReplacementNamed(context, 'home');
+                              } else {
+                                _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(
+                                    content: Text('${result.message}'),
+                                  ),
+                                );
+                                setState(() {
+                                  _loading = false;
+                                });
+                              }
+                            }
+                          },
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            shadowColor: Colors.greenAccent,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+                        height: 40.0,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, 'register');
+                          },
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            //shadowColor: Colors.greenAccent,
+                            //color: Colors.green,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'REGISTER',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Container(
-              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-              height: 40.0,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, 'register');
-                },
-                child: Material(
-                  borderRadius: BorderRadius.circular(20.0),
-                  //shadowColor: Colors.greenAccent,
-                  //color: Colors.green,
-                  elevation: 7.0,
-                  child: Center(
-                    child: Text(
-                      'REGISTER',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat'),
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
