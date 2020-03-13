@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/services/authentication.dart';
+import 'package:flutter_practice/models/models.dart';
+import 'package:flutter_practice/providers/auth_bloc.dart';
+import 'package:provider/provider.dart';
 
 // Register Page starts from here
 class RegisterPage extends StatefulWidget {
@@ -11,22 +13,11 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String status;
   String username, email, password, confirmPassword;
-  Auth auth = Auth();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<bool> signUp() async {
-    print('Sign In Initiated');
-    final user = await auth.signUp(email, password);
-    if (user != null) {
-      auth.sendEmailVerification();
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
@@ -180,18 +171,26 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               );
                             } else {
-                              bool result = await signUp();
-                              if (result == true) {
+                              AuthenticationResult result =
+                                  await authBloc.signUp(
+                                      email: email,
+                                      password: password,
+                                      username: username,
+                                      type: status);
+                              if (result.result == true) {
                                 _scaffoldKey.currentState.showSnackBar(
                                   SnackBar(
-                                    content: Text(
-                                        'Registration successful! Please check your email.'),
+                                    content: Text('${result.message}'),
                                   ),
                                 );
+                                Future.delayed(Duration(seconds: 2), () {
+                                  Navigator.pushReplacementNamed(
+                                      context, 'login');
+                                });
                               } else {
                                 _scaffoldKey.currentState.showSnackBar(
                                   SnackBar(
-                                    content: Text('Registration Error!'),
+                                    content: Text('${result.message}'),
                                   ),
                                 );
                               }

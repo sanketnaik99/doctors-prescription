@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/services/authentication.dart';
+import 'package:flutter_practice/models/models.dart';
+import 'package:flutter_practice/providers/auth_bloc.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,42 +15,12 @@ class _LoginPageState extends State<LoginPage> {
   String status;
   String email;
   String password;
-  Auth auth = Auth();
   bool _loading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<bool> signIn() async {
-    final String user = await auth.signIn(email, password);
-    if (user != null) {
-      print(user);
-      final bool isVerified = await auth.isEmailVerified();
-      if (isVerified) {
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text('Login Successful => $user'),
-          ),
-        );
-        return true;
-      } else {
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text('Please verify your email!'),
-          ),
-        );
-        return false;
-      }
-    } else {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text('Login Failed!'),
-        ),
-      );
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final AuthBloc authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
@@ -174,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               height: 40.0,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   print("Login clicked");
                   setState(() {
                     _loading = !_loading;
@@ -187,11 +159,29 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   final result = EmailValidator.validate(email);
                   print(_formKey.currentState.validate());
-                  if (result == true) {
-                    print("Valid Email");
-                    signIn();
+                  if (result == false) {
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
+                        content: Text('Email is Invalid!'),
+                      ),
+                    );
                   } else {
-                    print("Invalid Email");
+                    AuthenticationResult result = await authBloc.signIn(
+                        email: email, password: password, type: status);
+                    if (result.result == true) {
+                      //Login Successful
+                      _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(
+                          content: Text('${result.message}'),
+                        ),
+                      );
+                    } else {
+                      _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(
+                          content: Text('${result.message}'),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Material(
