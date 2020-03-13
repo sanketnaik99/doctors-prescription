@@ -137,17 +137,19 @@ class _LoginPageState extends State<LoginPage> {
               ]),
             ),
             SizedBox(height: 20.0),
+//            Container(
+//              child: Center(
+//                child: _loading ? LinearProgressIndicator() : Text(""),
+//              ),
+//            ),
+//            SizedBox(height: 20.0),
             Container(
-              child: Center(
-                child: _loading ? LinearProgressIndicator() : Text(""),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Container(
+              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
               height: 40.0,
               child: GestureDetector(
                 onTap: () async {
                   print("Login clicked");
+
                   setState(() {
                     _loading = !_loading;
                   });
@@ -183,6 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   }
+                  Navigator.pushNamed(context, 'home');
                 },
                 child: Material(
                   borderRadius: BorderRadius.circular(20.0),
@@ -203,6 +206,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20.0),
             Container(
+              margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
               height: 40.0,
               child: GestureDetector(
                 onTap: () {
