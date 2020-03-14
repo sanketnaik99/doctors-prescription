@@ -244,6 +244,19 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        child: RaisedButton(
+                          color: Colors.grey,
+                          child: Text(
+                            "QR Code",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'qrCode');
+                          },
+                        ),
+                      ),
                     ],
                   ),
           ],
