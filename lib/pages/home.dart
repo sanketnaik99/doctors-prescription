@@ -1,4 +1,3 @@
-//import 'dart:html';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Scan Prescription'),
         backgroundColor: Colors.green,
       ),
       body: Center(

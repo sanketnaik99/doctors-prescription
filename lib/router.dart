@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter_practice/pages/home.dart';
 import 'package:flutter_practice/pages/login.dart';
+import 'package:flutter_practice/pages/qrCode.dart';
 import 'package:flutter_practice/pages/registration.dart';
 
 class FluroRouter {
@@ -15,6 +16,9 @@ class FluroRouter {
   static Handler _HomeHandler = Handler(
       handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
           HomePage());
+  static Handler _QrCodeHandler = Handler(
+      handlerFunc: (BuildContext context, Map<String, dynamic> params) =>
+          QrCodePage());
   static void setupRouter() {
     router.define(
       'login',
@@ -27,6 +31,10 @@ class FluroRouter {
     router.define(
       'home',
       handler: _HomeHandler,
+    );
+    router.define(
+      'qrCode',
+      handler: _QrCodeHandler,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_practice/models/models.dart';
 import 'package:flutter_practice/providers/auth_bloc.dart';
 import 'package:provider/provider.dart';
 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -227,6 +228,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: Center(
+                child: RaisedButton(
+                    color: Colors.grey,
+                    child: Text(
+                      "QR Code",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'qrCode');
+                    }),
               ),
             ),
           ],
