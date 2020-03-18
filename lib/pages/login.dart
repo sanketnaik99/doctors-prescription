@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/models/models.dart';
 import 'package:flutter_practice/providers/auth_bloc.dart';
@@ -246,15 +247,36 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text(
-                            "QR Code",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'qrCode');
-                          },
+                        margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            RaisedButton(
+                              color: Colors.grey,
+                              child: Text(
+                                "QR Code",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'qrCode');
+                              },
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            RaisedButton(
+                              color: Colors.grey,
+                              child: Text(
+                                "QR Scanner",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'qrScanner');
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ],
