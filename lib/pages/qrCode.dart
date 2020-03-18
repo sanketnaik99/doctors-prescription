@@ -10,7 +10,7 @@ class _QrCodeState extends State<QrCodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Show QR",
@@ -25,11 +25,11 @@ class _QrCodeState extends State<QrCodePage> {
               "Place a QR Code in front of the Camera",
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
-            SizedBox(height: 130.0),
+            SizedBox(height: 100.0),
             QrImage(
               data: "12345678",
               version: QrVersions.auto,
-              size: 250.0,
+              size: 320.0,
               backgroundColor: Colors.white,
             ),
           ],
