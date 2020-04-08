@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class AuthenticationResult {
   final String message;
   final bool result;
@@ -10,6 +12,12 @@ class UserData {
   final String uid;
   final String userType;
   final String username;
+  final patients;
 
-  UserData({this.email, this.userType, this.uid, this.username});
+  UserData(
+      {@required this.email,
+      @required this.userType,
+      @required this.uid,
+      @required this.username,
+      this.patients});
 }

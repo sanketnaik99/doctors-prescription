@@ -1,8 +1,10 @@
+import 'package:doctors_prescription/providers/doctor_bloc.dart';
+import 'package:doctors_prescription/providers/patient_bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/models/models.dart';
-import 'package:flutter_practice/providers/auth_bloc.dart';
+import 'package:doctors_prescription/models/models.dart';
+import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var _formKey = GlobalKey<FormState>();
 
-  String status;
+  String status = "Doctor";
   String email;
   String password;
   bool _loading = false;
@@ -190,7 +192,27 @@ class _LoginPageState extends State<LoginPage> {
                                     content: Text('${result.message}'),
                                   ),
                                 );
-                                Navigator.pushReplacementNamed(context, 'home');
+                                setState(() {
+                                  _loading = false;
+                                });
+                                if (authBloc.userData.userType == 'Doctor') {
+                                  Provider.of<DoctorBloc>(context,
+                                          listen: false)
+                                      .currentDoctor = authBloc.userData;
+                                  Provider.of<DoctorBloc>(context,
+                                          listen: false)
+                                      .fetchPatients();
+                                  // TODO: CHANGE THIS
+                                  Navigator.of(context)
+                                      .pushNamed('doctorDashboard');
+                                } else if (authBloc.userData.userType ==
+                                    'Patient') {
+                                  Provider.of<PatientBloc>(context,
+                                          listen: false)
+                                      .currentPatient = authBloc.userData;
+                                  Navigator.of(context)
+                                      .pushNamed('patientDashboard');
+                                }
                               } else {
                                 _scaffoldKey.currentState.showSnackBar(
                                   SnackBar(
@@ -243,40 +265,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(50.0, 20.0, 50.0, 0.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            RaisedButton(
-                              color: Colors.grey,
-                              child: Text(
-                                "QR Code",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'qrCode');
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.0,
-                            ),
-                            RaisedButton(
-                              color: Colors.grey,
-                              child: Text(
-                                "QR Scanner",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'qrScanner');
-                              },
-                            ),
-                          ],
                         ),
                       ),
                     ],

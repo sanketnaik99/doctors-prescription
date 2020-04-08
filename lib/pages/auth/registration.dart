@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/models/models.dart';
-import 'package:flutter_practice/providers/auth_bloc.dart';
+import 'package:doctors_prescription/models/models.dart';
+import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:provider/provider.dart';
 
 // Register Page starts from here

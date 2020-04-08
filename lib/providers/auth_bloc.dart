@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctors_prescription/providers/doctor_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_practice/models/models.dart';
+import 'package:doctors_prescription/models/models.dart';
+import 'package:provider/provider.dart';
 
 class AuthBloc extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -163,6 +165,9 @@ class AuthBloc extends ChangeNotifier {
         userType: data['userType'],
         username: data['username'],
       );
+      if (userData.userType == "Doctor") {
+        //Provider.of<DoctorBloc>(context).currentDoctor =
+      }
       return true;
     } else {
       return false;

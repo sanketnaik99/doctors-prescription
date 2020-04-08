@@ -1,4 +1,4 @@
-package com.example.flutter_practice
+package com.example.doctors_prescription
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
