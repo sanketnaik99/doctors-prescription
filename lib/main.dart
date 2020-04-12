@@ -15,7 +15,7 @@ Future<void> main() async {
   cameras = await availableCameras();
   FluroRouter.setupRouter();
   final currentUser = await FirebaseAuth.instance.currentUser();
-  print('***CURRENT USER*** : ${currentUser.uid}');
+  //print('***CURRENT USER*** : ${currentUser.uid}');
   runApp(MyApp());
 }
 
