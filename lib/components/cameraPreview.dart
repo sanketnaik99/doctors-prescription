@@ -13,46 +13,56 @@ class CameraPreviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Image.file(
-          File(imagePath),
-        ),
         Expanded(
           child: Container(
-            color: Colors.black,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                FlatButton.icon(
-                  onPressed: this.retry,
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 25.0,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    'Retry',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
-                  ),
-                  splashColor: Colors.grey.shade700,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(
+                  File(imagePath),
                 ),
-                FlatButton.icon(
-                  onPressed: this.upload,
-                  icon: Icon(
-                    Icons.cloud_upload,
-                    size: 25.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 80.0,
+          color: Colors.black,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              FlatButton.icon(
+                onPressed: this.retry,
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 25.0,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Retry',
+                  style: TextStyle(fontSize: 18.0, color: Colors.white),
+                ),
+                splashColor: Colors.grey.shade700,
+              ),
+              FlatButton.icon(
+                onPressed: this.upload,
+                icon: Icon(
+                  Icons.cloud_upload,
+                  size: 25.0,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Upload',
+                  style: TextStyle(
+                    fontSize: 18.0,
                     color: Colors.white,
                   ),
-                  label: Text(
-                    'Upload',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  splashColor: Colors.grey.shade700,
-                )
-              ],
-            ),
+                ),
+                splashColor: Colors.grey.shade700,
+              )
+            ],
           ),
         )
       ],

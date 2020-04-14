@@ -22,10 +22,7 @@ class CameraViewFinderWidget extends StatelessWidget {
               Transform.scale(
                 scale: controller.value.aspectRatio / deviceRatio,
                 child: Center(
-                  child: AspectRatio(
-                    aspectRatio: controller.value.aspectRatio,
-                    child: CameraPreview(controller),
-                  ),
+                  child: CameraPreview(controller),
                 ),
               ),
               Align(
