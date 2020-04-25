@@ -49,43 +49,47 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             Container(
-              child: ButtonBar(
-                children: <Widget>[
-                  RaisedButton(
-                    color: status == "Doctor" ? Colors.green : Colors.grey,
-                    onPressed: () {
-                      print(status);
-                      setState(() {
-                        status = "Doctor";
+              child: Material(
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: status == "Doctor" ? Colors.green : Colors.grey,
+                      onPressed: () {
                         print(status);
-                      });
-                    },
-                    child: Text(
-                      "DOCTOR",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+                        setState(() {
+                          status = "Doctor";
+                          print(status);
+                        });
+                      },
+                      child: Text(
+                        "DOCTOR",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  ),
-                  RaisedButton(
-                    child: Text(
-                      "PATIENT",
-                      style: TextStyle(
-                        color: Colors.white,
+                    RaisedButton(
+                      child: Text(
+                        "PATIENT",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    color: status == "Patient" ? Colors.green : Colors.grey,
-                    onPressed: () {
-                      setState(() {
-                        status = "Patient";
-                        print(status);
-                      });
-                    },
-                  )
-                ],
-                alignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+                      color: status == "Patient" ? Colors.green : Colors.grey,
+                      onPressed: () {
+                        setState(() {
+                          status = "Patient";
+                          print(status);
+                        });
+                      },
+                    )
+                  ],
+//                alignment: MainAxisAlignment.center,
+//                mainAxisSize: MainAxisSize.min,
+                ),
               ),
             ),
             Container(

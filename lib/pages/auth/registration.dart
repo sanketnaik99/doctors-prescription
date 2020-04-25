@@ -32,43 +32,47 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             SizedBox(height: 20.0),
             Container(
-              child: ButtonBar(
-                children: <Widget>[
-                  RaisedButton(
-                    color: status == "Doctor" ? Colors.green : Colors.grey,
-                    child: Text(
-                      "DOCTOR",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+              child: Material(
+                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: status == "Doctor" ? Colors.green : Colors.grey,
+                      child: Text(
+                        "DOCTOR",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
+                      onPressed: () {
+                        setState(() {
+                          status = "Doctor";
+                          print(status);
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        status = "Doctor";
-                        print(status);
-                      });
-                    },
-                  ),
-                  RaisedButton(
-                    child: Text(
-                      "PATIENT",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+                    RaisedButton(
+                      child: Text(
+                        "PATIENT",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    color: status == "Patient" ? Colors.green : Colors.grey,
-                    onPressed: () {
-                      setState(() {
-                        status = 'Patient';
-                        print(status);
-                      });
-                    },
-                  )
-                ],
-                alignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
+                      color: status == "Patient" ? Colors.green : Colors.grey,
+                      onPressed: () {
+                        setState(() {
+                          status = 'Patient';
+                          print(status);
+                        });
+                      },
+                    )
+                  ],
+//                  alignment: MainAxisAlignment.end,
+//                  mainAxisSize: MainAxisSize.min,
+                ),
               ),
             ),
             Container(
