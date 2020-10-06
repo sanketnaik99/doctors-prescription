@@ -7,7 +7,7 @@ class DoctorAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.blueAccent,
       title: Text('$title'),
     );
   }

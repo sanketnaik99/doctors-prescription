@@ -32,7 +32,7 @@ class _PatientDashboardState extends State<PatientDashboard> {
             ),
             ItemCard(
               backgroundColor: Colors.lightBlue.shade100,
-              avatarImage: AssetImage('assets/icons/doctor.png'),
+              avatarImage: AssetImage('assets/icons/patient.png'),
               title: '${patientBloc.currentPatient.username}',
               content: [
                 'EMAIL: ${patientBloc.currentPatient.email}',
@@ -46,6 +46,20 @@ class _PatientDashboardState extends State<PatientDashboard> {
                 style: kDashboardTitleTextStyle,
               ),
             ),
+            ItemCard(
+              avatarImage: NetworkImage(
+                  'https://firebasestorage.googleapis.com/v0/b/doctor-s-prescription.appspot.com/o/Medicines%2FBENADRYL?alt=media&token=2161cc44-e700-479e-8424-669b1251ec07'),
+              backgroundColor: Colors.green[200],
+              title: 'Benadryl DR Syrup 100ml',
+              content: ['Dosage: 100ml', 'Category: Cough and Cold'],
+            ),
+            ItemCard(
+              avatarImage: NetworkImage(
+                  'https://firebasestorage.googleapis.com/v0/b/doctor-s-prescription.appspot.com/o/Medicines%2FCROCIN?alt=media&token=b373b505-b015-420c-ba28-d59e6398a1a9'),
+              backgroundColor: Colors.green[200],
+              title: 'Crocin 650mg Tablet',
+              content: ['Dosage: 650mg', 'Category: Fever'],
+            )
           ],
         ),
       ),

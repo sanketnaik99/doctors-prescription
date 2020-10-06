@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_prescription/models/models.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,16 @@ const String API_URL =
 
 class PatientBloc extends ChangeNotifier {
   final StorageReference _storageReference = FirebaseStorage().ref();
+  final _firestore = Firestore.instance;
   bool _isUploading = false;
   bool _isProcessing = false;
-  //String _imageURL =
-  //    'https://firebasestorage.googleapis.com/v0/b/doctor-s-prescription.appspot.com/o/captures%2Ftest?alt=media&token=be7130dc-caa7-4033-ab4a-c1d160862633';
+  bool _hasProcessingError = false;
   String _imageURL = '';
   String _resultCode;
   String _resultMessage;
   List<String> _predictions = [];
   UserData _currentPatient;
+  List<Medicine> _medicines = [];
 
   // Upload status getter
   bool get isUploading => _isUploading;
@@ -36,6 +38,15 @@ class PatientBloc extends ChangeNotifier {
   // Processing status setter
   set isProcessing(bool val) {
     _isProcessing = val;
+    notifyListeners();
+  }
+
+  // Processing status getter
+  bool get hasProcessingError => _isProcessing;
+
+  // Processing status setter
+  set hasProcessingError(bool val) {
+    _hasProcessingError = val;
     notifyListeners();
   }
 
@@ -66,6 +77,13 @@ class PatientBloc extends ChangeNotifier {
 
   set predictions(List<String> val) {
     _predictions = val;
+    notifyListeners();
+  }
+
+  List<Medicine> get medicines => _medicines;
+
+  set medicines(List<Medicine> val) {
+    _medicines = val;
     notifyListeners();
   }
 
@@ -101,12 +119,32 @@ class PatientBloc extends ChangeNotifier {
       resultCode = result['result'];
       resultMessage = result['message'];
       isProcessing = false;
+      hasProcessingError = true;
+      print('ERROR');
     } else if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
       resultCode = result['result'];
       resultMessage = result['message'];
       print(result['prediction']);
       predictions = result['prediction'].toString().split(" ");
+      print(predictions);
+      predictions.forEach((element) async {
+        QuerySnapshot snapshots = await _firestore
+            .collection('Medicines')
+            .where('id', isEqualTo: element)
+            .getDocuments();
+        final med = snapshots.documents[0].data;
+        medicines = [
+          ...medicines,
+          Medicine(
+              category: med['category'],
+              id: med['id'],
+              image: med['image'],
+              name: med['name'],
+              weight: med['weight'])
+        ];
+        print(medicines[0].name);
+      });
       isProcessing = false;
     }
   }

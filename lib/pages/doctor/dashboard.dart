@@ -1,11 +1,15 @@
-import 'package:doctors_prescription/components/doctorAppBar.dart';
-import 'package:doctors_prescription/components/doctorDrawer.dart';
+import 'package:doctors_prescription/components/doctor/dashboard/profile_card.dart';
 import 'package:doctors_prescription/components/itemCard.dart';
 import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:doctors_prescription/providers/doctor_bloc.dart';
+import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/drawer.dart';
 
 class DoctorDashboard extends StatefulWidget {
   @override
@@ -14,11 +18,29 @@ class DoctorDashboard extends StatefulWidget {
 
 class _DoctorDashboardState extends State<DoctorDashboard> {
   @override
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = Provider.of<AuthBloc>(context);
     final DoctorBloc doctorBloc = Provider.of<DoctorBloc>(context);
     return Scaffold(
       appBar: DoctorAppBar(title: 'Dashboard'),
       drawer: DoctorAppDrawer(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(DOCTOR_ADD_PATIENT);
+        },
+        heroTag: 'addPatient',
+        tooltip: 'Add a Patient',
+        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -31,14 +53,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 style: kDashboardTitleTextStyle,
               ),
             ),
-            ItemCard(
-              backgroundColor: Colors.lightBlue.shade100,
-              avatarImage: AssetImage('assets/icons/doctor.png'),
-              title: '${doctorBloc.currentDoctor.username}',
-              content: [
-                'EMAIL: ${doctorBloc.currentDoctor.email}',
-                'UID: ${doctorBloc.currentDoctor.uid}'
-              ],
+            DoctorProfileCard(
+              email: authBloc.userData?.email,
+              name: authBloc.userData?.username,
+              gender: authBloc.userData?.gender,
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -50,7 +68,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             doctorBloc.isLoadingPatients
                 ? Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                     ),
                   )
                 : doctorBloc.hasPatients

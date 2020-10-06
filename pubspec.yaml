@@ -19,20 +19,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  fluro: "^1.5.2"
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.13.4
-  firebase_storage: ^3.1.5
-  provider: ^4.0.4
+  firebase_storage: ^3.1.5 # NO WEB SUPPORT
+  provider: ^4.3.2+2
   email_validator: ^1.0.4
-  toggle_bar_button: ^1.0.0
-  camera: ^0.5.7+4
-  path_provider: ^1.6.5
+  toggle_bar_button: ^1.0.0 # NO WEB SUPPORT
+  camera: ^0.5.7+4 # NO WEB SUPPORT
+  path_provider: ^1.6.5 # NO WEB SUPPORT
   path: ^1.6.4
   qr_flutter: ^3.1.0
-  qr_code_scanner: ^0.0.12
+  qr_code_scanner: ^0.0.12 # NO WEB SUPPORT
   flare_flutter: ^2.0.1
   http: ^0.12.0+4
+  image: ^2.1.4
+  shared_preferences: ^0.5.10
+  google_fonts: ^1.1.0 # NO WEB SUPPORT
+  intl: ^0.16.1
+  age: ^0.0.1
+
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -19,10 +19,20 @@ class CameraViewFinderWidget extends StatelessWidget {
           final deviceRatio = size.width / size.height;
           return Stack(
             children: <Widget>[
-              Transform.scale(
-                scale: controller.value.aspectRatio / deviceRatio,
-                child: Center(
-                  child: CameraPreview(controller),
+              Center(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRect(
+                    child: Transform.scale(
+                      scale: 1 / controller.value.aspectRatio,
+                      child: Center(
+                        child: AspectRatio(
+                          aspectRatio: controller.value.aspectRatio,
+                          child: CameraPreview(controller),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Align(
@@ -33,7 +43,7 @@ class CameraViewFinderWidget extends StatelessWidget {
                     'Place a prescription in front of the camera',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 23.0,
+                      fontSize: 18.0,
                     ),
                     softWrap: true,
                     textAlign: TextAlign.center,

@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doctors_prescription/providers/doctor_bloc.dart';
+import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:doctors_prescription/models/models.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthBloc extends ChangeNotifier {
+class AuthBloc with ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
   FirebaseUser _user;
   UserData _userData;
-  String _userType = '';
+  String _userType;
 
   //USER GETTER
   FirebaseUser get user => _user;
@@ -36,7 +37,18 @@ class AuthBloc extends ChangeNotifier {
   //USER DATA SETTER
   set userData(UserData data) {
     _userData = data;
+    print(data.username);
     notifyListeners();
+  }
+
+  Future<FirebaseUser> checkUserStatus() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    if (user?.email != null) {
+      print(user?.email);
+      return user;
+    } else {
+      return null;
+    }
   }
 
   Future<AuthenticationResult> signIn(
@@ -44,8 +56,14 @@ class AuthBloc extends ChangeNotifier {
     userType = type;
 
     // User Login
-    final loginResult = await firebaseLogin(email, password);
-    if (loginResult != null) {
+    FirebaseUser loginResult;
+    try {
+      loginResult = await firebaseLogin(email, password);
+    } catch (e) {
+      return AuthenticationResult(message: '${e.message}', result: false);
+    }
+
+    if (loginResult.runtimeType != PlatformException) {
       user = loginResult;
     } else {
       return AuthenticationResult(message: 'Login Failed', result: false);
@@ -58,8 +76,15 @@ class AuthBloc extends ChangeNotifier {
     }
 
     // Get DB Data
-    bool dataResult = await getDbData(userType: userType, uid: user.uid);
-    if (dataResult == true) {
+    UserData userDataResult =
+        await getDbData(userType: userType, uid: user.uid);
+    userData = userDataResult;
+    if (userDataResult != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if ((prefs.getBool(IS_LOGGED_IN) ?? false) != true) {
+        prefs.setBool(IS_LOGGED_IN, true);
+        prefs.setString(USER_TYPE, userType);
+      }
       return AuthenticationResult(
           message:
               'Login Successful => ${userData.email} (${userData.userType})',
@@ -71,8 +96,53 @@ class AuthBloc extends ChangeNotifier {
     }
   }
 
-  Future<AuthenticationResult> signUp(
-      {String email, String password, String username, String type}) async {
+  Future<AuthenticationResult> autoSignIn() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+
+    if (currentUser == null) {
+      return AuthenticationResult(message: 'User not Logged in', result: false);
+    } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String currentUserType = prefs.getString(USER_TYPE);
+      user = currentUser;
+      userType = currentUserType;
+      // Check Email Verification
+      if (await isEmailVerified() == false) {
+        return AuthenticationResult(
+            message: 'Please Verify Your Email', result: false);
+      }
+      UserData userDataResult =
+          await getDbData(userType: userType, uid: user.uid);
+      userData = userDataResult;
+      if (userDataResult != null) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        if ((prefs.getBool(IS_LOGGED_IN) ?? false) != true) {
+          prefs.setBool(IS_LOGGED_IN, true);
+        }
+        return AuthenticationResult(
+          message:
+              'Login Successful => ${userData.email} (${userData.userType})',
+          result: true,
+          userData: _userData,
+        );
+      } else {
+        await firebaseSignOut();
+        return AuthenticationResult(
+            message: 'Login Failed! Please Try Again', result: false);
+      }
+    }
+  }
+
+  Future<AuthenticationResult> signUp({
+    String email,
+    String password,
+    String username,
+    String type,
+    String dateOfBirth,
+    double height,
+    String gender,
+    double weight,
+  }) async {
     userType = type;
 
     // Create User
@@ -89,7 +159,15 @@ class AuthBloc extends ChangeNotifier {
 
     // Add User in DB
     bool result = await addUserInDb(
-        email: email, uid: user.uid, userType: userType, username: username);
+      email: email,
+      uid: user.uid,
+      userType: userType,
+      username: username,
+      dateOfBirth: dateOfBirth,
+      height: height,
+      weight: weight,
+      gender: gender,
+    );
     if (result == true) {
       return AuthenticationResult(
           message: 'Registration Successful! Please check your email',
@@ -122,8 +200,14 @@ class AuthBloc extends ChangeNotifier {
   }
 
   Future<void> firebaseSignOut() async {
-    user = null;
-    userType = null;
+    if (user != null) {
+      user = null;
+    }
+    if (userType != null) {
+      userType = null;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(IS_LOGGED_IN, false);
     return _firebaseAuth.signOut();
   }
 
@@ -137,14 +221,26 @@ class AuthBloc extends ChangeNotifier {
   // FIREBASE AUTH FUNCTIONS END
 
   // FIRESTORE FUNCTIONS
-  Future<bool> addUserInDb(
-      {String email, String uid, String username, String userType}) async {
+  Future<bool> addUserInDb({
+    String email,
+    String uid,
+    String username,
+    String userType,
+    String dateOfBirth,
+    double height,
+    double weight,
+    String gender,
+  }) async {
     try {
       await _firestore.collection('$userType').document('$uid').setData({
         'email': email,
         'uid': uid,
         'username': username,
         'userType': userType,
+        'DOB': dateOfBirth,
+        'gender': gender,
+        'weight': weight,
+        'height': height,
       });
       return true;
     } catch (err) {
@@ -154,23 +250,17 @@ class AuthBloc extends ChangeNotifier {
     }
   }
 
-  Future<bool> getDbData({String userType, String uid}) async {
+  Future<UserData> getDbData({String userType, String uid}) async {
     DocumentSnapshot snapshot =
         await _firestore.collection('$userType').document('$uid').get();
     if (snapshot.exists) {
       final data = snapshot.data;
-      userData = UserData(
-        email: data['email'],
-        uid: data['uid'],
-        userType: data['userType'],
-        username: data['username'],
-      );
-      if (userData.userType == "Doctor") {
-        //Provider.of<DoctorBloc>(context).currentDoctor =
-      }
-      return true;
+      UserData uData = UserData.fromJson(data);
+      userData = uData;
+      print('PROVIDER => ' + _userData.username);
+      return userData;
     } else {
-      return false;
+      return null;
     }
   }
 }

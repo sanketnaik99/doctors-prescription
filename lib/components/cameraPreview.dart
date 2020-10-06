@@ -15,14 +15,12 @@ class CameraPreviewWidget extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: FileImage(
                   File(imagePath),
                 ),
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
           ),

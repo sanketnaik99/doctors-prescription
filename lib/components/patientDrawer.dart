@@ -1,4 +1,7 @@
+import 'package:doctors_prescription/providers/auth_bloc.dart';
+import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PatientDrawer extends StatelessWidget {
   @override
@@ -39,6 +42,21 @@ class PatientDrawer extends StatelessWidget {
             child: ListTile(
               title: Text(
                 "Show QR",
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () async {
+              await Provider.of<AuthBloc>(context, listen: false)
+                  .firebaseSignOut();
+              Navigator.of(context).pushReplacementNamed(LOGIN);
+            },
+            child: ListTile(
+              title: Text(
+                "Logout",
                 style: TextStyle(
                   fontSize: 15,
                 ),
