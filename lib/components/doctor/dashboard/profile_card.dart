@@ -11,32 +11,39 @@ class DoctorProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5.0,
+      elevation: 2.0,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
-            Column(
-              children: [
-                Image.asset(
-                  'assets/icons/doctor.png',
-                  width: 80.0,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/icons/doctor.png',
+                    width: 80.0,
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      UserDetailRow(
-                        iconPath: 'assets/icons/name.png',
-                        title: this.name,
+                      Expanded(
+                        child: UserDetailRow(
+                          title: 'Name',
+                          data: this.name,
+                        ),
                       ),
-                      UserDetailRow(
-                        iconPath: 'assets/icons/sex.png',
-                        title: this.gender,
+                      Expanded(
+                        child: UserDetailRow(
+                          title: 'Gender',
+                          data: this.gender,
+                        ),
                       )
                     ],
                   ),
@@ -44,11 +51,11 @@ class DoctorProfileCard extends StatelessWidget {
                     height: 10.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       UserDetailRow(
-                        iconPath: 'assets/icons/email.png',
-                        title: this.email,
+                        title: 'Email',
+                        data: this.email,
                       )
                     ],
                   ),

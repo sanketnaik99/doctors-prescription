@@ -35,7 +35,7 @@ class DoctorAppDrawer extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).pushReplacementNamed('doctorDashboard');
+                Navigator.of(context).pushReplacementNamed(DOCTOR_DASHBOARD);
               },
               title: Text(
                 "Dashboard",
@@ -46,7 +46,7 @@ class DoctorAppDrawer extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).pushNamed('qrScanner');
+                Navigator.of(context).pushNamed(DOCTOR_SCAN_QR);
               },
               title: Text(
                 "Add Patient",

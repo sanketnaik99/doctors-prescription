@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_prescription/models/models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DoctorBloc extends ChangeNotifier {
@@ -89,23 +90,22 @@ class DoctorBloc extends ChangeNotifier {
     }
   }
 
-  Future<bool> addNewPatient() async {
+  Future<bool> addNewPatient(UserData patient, FirebaseUser doctor) async {
     try {
-      print("***CURRENT PATIENT*** ${newPatient.email}");
+      print("***CURRENT PATIENT*** ${patient.email}");
       final newPatientRef = _firestore
           .collection('Doctor')
-          .document(currentDoctor.uid)
+          .document(doctor.uid)
           .collection('Patients')
-          .document(newPatient.uid);
+          .document(patient.uid);
       await newPatientRef.setData({
-        'username': newPatient.username,
-        'email': newPatient.email,
-        'uid': newPatient.uid,
-        'userType': newPatient.userType
+        'username': patient.username,
+        'email': patient.email,
+        'uid': patient.uid,
+        'DOB': patient.dobString,
+        'userType': patient.userType,
+        'gender': patient.gender,
       });
-      newPatient = null;
-      hasNewPatientData = false;
-      isLoadingPatientData = false;
       return true;
     } catch (err) {
       return false;

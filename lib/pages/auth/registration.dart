@@ -722,69 +722,85 @@ class _RegistrationState extends State<Registration> {
             SizedBox(
               height: 20.0,
             ),
-            DoctorPatientCard(
-              imagePath: _userType == USER_TYPE_DOCTOR
-                  ? 'assets/icons/doctor.png'
-                  : 'assets/icons/patient.png',
-              title: _userType == USER_TYPE_DOCTOR ? 'Doctor' : 'Patient',
-              elevation: 2.0,
-              backgroundColor: Colors.blueAccent,
-              textColor: Colors.white,
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            UserDetailRow(
-              iconPath: 'assets/icons/email.png',
-              title: _userEmail,
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: UserDetailRow(
-                    title: _userName,
-                    iconPath: 'assets/icons/name.png',
+                Padding(
+                  padding: const EdgeInsets.only(right: 30.0),
+                  child: DoctorPatientCard(
+                    imagePath: _userType == USER_TYPE_DOCTOR
+                        ? 'assets/icons/doctor.png'
+                        : 'assets/icons/patient.png',
+                    title: _userType == USER_TYPE_DOCTOR ? 'Doctor' : 'Patient',
+                    elevation: 2.0,
+                    backgroundColor: Colors.blueAccent,
+                    textColor: Colors.white,
                   ),
                 ),
                 Expanded(
-                  child: UserDetailRow(
-                    title: _userGender,
-                    iconPath: 'assets/icons/sex.png',
+                  child: Column(
+                    children: [
+                      UserDetailRow(
+                        title: 'Name',
+                        data: _userName,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      UserDetailRow(
+                        title: 'Email',
+                        data: _userEmail,
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
             SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: UserDetailRow(
-                    title: _userDOBText,
-                    iconPath: 'assets/icons/hourglass.png',
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: UserDetailRow(
+                      data: _userDOBText,
+                      title: 'Date of Birth',
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: UserDetailRow(
-                    title: '${_userHeight.toString()}cm',
-                    iconPath: 'assets/icons/height.png',
+                  Expanded(
+                    child: UserDetailRow(
+                      data: _userGender,
+                      title: 'Gender',
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
-            UserDetailRow(
-              title: '${_userWeight.toString()}Kg',
-              iconPath: 'assets/icons/weight-scale.png',
-            )
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: UserDetailRow(
+                      data: '${_userWeight.toString()}Kg',
+                      title: 'Weight',
+                    ),
+                  ),
+                  Expanded(
+                    child: UserDetailRow(
+                      data: '${_userHeight.toString()}cm',
+                      title: 'Height',
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 
 import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/app_bar.dart';
 import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/drawer.dart';
@@ -56,40 +55,8 @@ class _QrScannerState extends State<AddPatientPage> {
         // TODO : SPLIT INTO TWO PAGES
         body: doctorBloc.isLoadingPatientData == false &&
                 doctorBloc.hasNewPatientData == false
-            ? Stack(
-                children: <Widget>[
-                  Center(
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 5,
-                          child: QRView(
-                              key: qrKey,
-                              overlay: QrScannerOverlayShape(
-                                  borderRadius: 10,
-                                  borderColor: Colors.red,
-                                  borderLength: 30,
-                                  borderWidth: 10,
-                                  cutOutSize: 300),
-                              onQRViewCreated: _onQRViewCreate),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 25.0),
-                      child: Hero(
-                        tag: 'addPatient',
-                        child: Text(
-                          'Place the QR code in the box.',
-                          style: TextStyle(color: Colors.white, fontSize: 21.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            ? SizedBox(
+                height: 20.0,
               )
             : doctorBloc.isLoadingPatientData == true &&
                     doctorBloc.hasNewPatientData == false
@@ -138,7 +105,7 @@ class _QrScannerState extends State<AddPatientPage> {
                                   child: RaisedButton.icon(
                                     onPressed: () async {
                                       //TODO: FIX ASYNC ISSUE
-                                      await doctorBloc.addNewPatient();
+                                      //await doctorBloc.addNewPatient();
                                       doctorBloc.fetchPatients();
                                       Navigator.of(context)
                                           .pushReplacementNamed(

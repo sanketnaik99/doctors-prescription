@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 
 class UserDetailRow extends StatelessWidget {
+  final String data;
   final String title;
-  final String iconPath;
 
-  UserDetailRow({this.title, this.iconPath});
+  UserDetailRow({this.title, this.data});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Image.asset(
-          iconPath,
-          width: 40.0,
-        ),
-        SizedBox(
-          width: 12.0,
-        ),
-        Text(
-          '$title',
-          style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.w400,
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$title',
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.grey[500],
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ],
     );

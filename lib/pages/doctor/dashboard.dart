@@ -33,7 +33,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(DOCTOR_ADD_PATIENT);
+          Navigator.of(context).pushNamed(DOCTOR_SCAN_QR);
         },
         heroTag: 'addPatient',
         tooltip: 'Add a Patient',

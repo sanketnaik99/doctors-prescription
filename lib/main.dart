@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:doctors_prescription/pages/auth/login.dart';
 import 'package:doctors_prescription/pages/auth/registration.dart';
 import 'package:doctors_prescription/pages/doctor/add_patient.dart';
+import 'package:doctors_prescription/pages/doctor/add_patient/scan_qr.dart';
+import 'package:doctors_prescription/pages/doctor/add_patient/scan_result.dart';
 import 'package:doctors_prescription/pages/doctor/dashboard.dart';
 import 'package:doctors_prescription/pages/patient/patientDashboard.dart';
 import 'package:doctors_prescription/pages/patient/prescriptionScan.dart';
@@ -53,6 +55,8 @@ class MyApp extends StatelessWidget {
           // DOCTOR ROUTES
           DOCTOR_DASHBOARD: (context) => DoctorDashboard(),
           DOCTOR_ADD_PATIENT: (context) => AddPatientPage(),
+          DOCTOR_SCAN_QR: (context) => ScanQRPage(),
+          DOCTOR_SCAN_RESULT: (context) => ScanResultPage(),
 
           PATIENT_DASHBOARD: (context) => PatientDashboard(),
           PATIENT_PRESCRIPTION_SCAN: (context) => PrescriptionScan(),
