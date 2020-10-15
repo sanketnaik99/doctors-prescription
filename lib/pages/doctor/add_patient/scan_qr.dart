@@ -1,10 +1,11 @@
-import 'package:doctors_prescription/components/doctor/app_bar.dart';
-import 'package:doctors_prescription/components/doctor/drawer.dart';
 import 'package:doctors_prescription/models/doctor.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/doctor/components/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/doctor/components/drawer.dart';
 
 class ScanQRPage extends StatefulWidget {
   @override

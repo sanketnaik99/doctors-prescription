@@ -1,10 +1,15 @@
+import 'package:age/age.dart';
 import 'package:doctors_prescription/components/itemCard.dart';
-import 'package:doctors_prescription/components/patientAppBar.dart';
-import 'package:doctors_prescription/components/patientDrawer.dart';
 import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/pages/patient/components/dashboard/profile_card.dart';
+import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:doctors_prescription/providers/patient_bloc.dart';
+import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/drawer.dart';
 
 class PatientDashboard extends StatefulWidget {
   @override
@@ -15,9 +20,18 @@ class _PatientDashboardState extends State<PatientDashboard> {
   @override
   Widget build(BuildContext context) {
     final PatientBloc patientBloc = Provider.of<PatientBloc>(context);
+    final AuthBloc authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
       appBar: PatientAppBar(title: 'Dashboard'),
       drawer: PatientDrawer(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(PATIENT_SCAN_PRESCRIPTION);
+        },
+        backgroundColor: Colors.green,
+        child: Icon(Icons.camera_alt),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -30,14 +44,12 @@ class _PatientDashboardState extends State<PatientDashboard> {
                 style: kDashboardTitleTextStyle,
               ),
             ),
-            ItemCard(
-              backgroundColor: Colors.lightBlue.shade100,
-              avatarImage: AssetImage('assets/icons/patient.png'),
-              title: '${patientBloc.currentPatient.username}',
-              content: [
-                'EMAIL: ${patientBloc.currentPatient.email}',
-                'UID: ${patientBloc.currentPatient.uid}'
-              ],
+            PatientProfileCard(
+              email: authBloc.userData.email,
+              name: authBloc.userData.username,
+              gender: authBloc.userData.gender,
+              age:
+                  '${Age.dateDifference(fromDate: authBloc.userData.dateOfBirth, toDate: DateTime.now()).years} Years',
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),

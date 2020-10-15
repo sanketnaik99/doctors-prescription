@@ -270,9 +270,6 @@ class _LoginPageState extends State<LoginPage> {
                                       Provider.of<DoctorBloc>(context,
                                               listen: false)
                                           .currentDoctor = authBloc.userData;
-                                      Provider.of<DoctorBloc>(context,
-                                              listen: false)
-                                          .fetchPatients();
                                       Navigator.of(context)
                                           .pushReplacementNamed(
                                               DOCTOR_DASHBOARD);

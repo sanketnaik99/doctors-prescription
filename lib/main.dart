@@ -1,13 +1,13 @@
 import 'package:camera/camera.dart';
 import 'package:doctors_prescription/pages/auth/login.dart';
 import 'package:doctors_prescription/pages/auth/registration.dart';
-import 'package:doctors_prescription/pages/doctor/add_patient.dart';
 import 'package:doctors_prescription/pages/doctor/add_patient/scan_qr.dart';
 import 'package:doctors_prescription/pages/doctor/add_patient/scan_result.dart';
 import 'package:doctors_prescription/pages/doctor/dashboard.dart';
-import 'package:doctors_prescription/pages/patient/patientDashboard.dart';
+import 'package:doctors_prescription/pages/patient/dashboard.dart';
 import 'package:doctors_prescription/pages/patient/prescriptionScan.dart';
-import 'package:doctors_prescription/pages/patient/scanResult.dart';
+import 'package:doctors_prescription/pages/patient/scan_prescription/scan_prescription.dart';
+import 'package:doctors_prescription/pages/patient/scan_prescription/scan_result.dart';
 import 'package:doctors_prescription/pages/patient/showQR.dart';
 import 'package:doctors_prescription/pages/splash.dart';
 import 'package:doctors_prescription/providers/auth_bloc.dart';
@@ -54,13 +54,15 @@ class MyApp extends StatelessWidget {
 
           // DOCTOR ROUTES
           DOCTOR_DASHBOARD: (context) => DoctorDashboard(),
-          DOCTOR_ADD_PATIENT: (context) => AddPatientPage(),
           DOCTOR_SCAN_QR: (context) => ScanQRPage(),
           DOCTOR_SCAN_RESULT: (context) => ScanResultPage(),
 
           PATIENT_DASHBOARD: (context) => PatientDashboard(),
+          PATIENT_SCAN_PRESCRIPTION: (context) => PatientScanPrescription(),
+          PATIENT_SCAN_RESULT: (context) => PatientScanResult(),
+
           PATIENT_PRESCRIPTION_SCAN: (context) => PrescriptionScan(),
-          PATIENT_SCAN_RESULT: (context) => ScanResult(),
+
           PATIENT_SHOW_QR: (context) => QrCodePage(),
         },
       ),

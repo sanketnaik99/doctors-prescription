@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:doctors_prescription/components/patientAppBar.dart';
-import 'package:doctors_prescription/components/patientDrawer.dart';
 import 'package:doctors_prescription/providers/patient_bloc.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/drawer.dart';
 
 class ScanResult extends StatefulWidget {
   ScanResult();

@@ -1,9 +1,10 @@
 import 'package:doctors_prescription/providers/patient_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:doctors_prescription/components/patientAppBar.dart';
-import 'package:doctors_prescription/components/patientDrawer.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/patient/components/drawer.dart';
 
 class QrCodePage extends StatefulWidget {
   @override

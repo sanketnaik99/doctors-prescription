@@ -1,16 +1,16 @@
 import 'package:age/age.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doctors_prescription/components/doctor/app_bar.dart';
-import 'package:doctors_prescription/components/doctor/drawer.dart';
 import 'package:doctors_prescription/components/patient/add_patient/detail_profile_card.dart';
 import 'package:doctors_prescription/models/doctor.dart';
 import 'package:doctors_prescription/models/models.dart';
 import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:doctors_prescription/providers/doctor_bloc.dart';
 import 'package:doctors_prescription/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/doctor/components/app_bar.dart';
+import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/pages/doctor/components/drawer.dart';
 
 class ScanResultPage extends StatefulWidget {
   @override
@@ -22,20 +22,20 @@ class _ScanResultPageState extends State<ScanResultPage> {
   String _message = '';
   Color _messageColor = Colors.black;
 
-  addPatient(UserData patient, FirebaseUser doctor) async {
+  // ADD PATIENT DETAILS TO PATIENTS COLLECTION OF DOCTOR'S DOCUMENT
+  addPatient(UserData patient, UserData doctor) async {
     setState(() {
       _isLoading = true;
     });
     bool result = await Provider.of<DoctorBloc>(context, listen: false)
         .addNewPatient(patient, doctor);
-
+    print(result);
     if (result == true) {
       setState(() {
         _isLoading = false;
         _message = 'Patient Added Successfully';
         _messageColor = Colors.green;
       });
-      Provider.of<DoctorBloc>(context, listen: false).fetchPatients();
       Future.delayed(Duration(seconds: 1), () {
         Navigator.of(context).pushReplacementNamed(DOCTOR_DASHBOARD);
       });
@@ -50,11 +50,11 @@ class _ScanResultPageState extends State<ScanResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Fetch patient and display result.
     final QRScanResult args = ModalRoute.of(context).settings.arguments;
     DoctorBloc doctorBloc = Provider.of<DoctorBloc>(context);
     AuthBloc authBloc = Provider.of<AuthBloc>(context);
-    CollectionReference patient = Firestore.instance.collection('Patient');
+    CollectionReference patientCollectionRef =
+        Firestore.instance.collection('Patient');
     return Scaffold(
       appBar: DoctorAppBar(
         title: 'Scan Result',
@@ -66,7 +66,7 @@ class _ScanResultPageState extends State<ScanResultPage> {
           children: [
             Expanded(
               child: FutureBuilder(
-                future: patient.document(args.qrResult).get(),
+                future: patientCollectionRef.document(args.qrResult).get(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.hasError ||
@@ -138,7 +138,7 @@ class _ScanResultPageState extends State<ScanResultPage> {
                                 color: Colors.blueAccent,
                                 textColor: Colors.white,
                                 onPressed: () {
-                                  addPatient(patient, authBloc.user);
+                                  addPatient(patient, authBloc.userData);
                                 },
                                 icon: Icon(Icons.add),
                                 label: Padding(

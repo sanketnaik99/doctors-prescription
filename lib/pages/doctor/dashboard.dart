@@ -1,15 +1,17 @@
-import 'package:doctors_prescription/components/doctor/dashboard/profile_card.dart';
-import 'package:doctors_prescription/components/itemCard.dart';
+import 'package:age/age.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/models/doctor.dart';
+import 'package:doctors_prescription/pages/doctor/components/app_bar.dart';
+import 'package:doctors_prescription/pages/doctor/components/dashboard/patient_card.dart';
+import 'package:doctors_prescription/pages/doctor/components/dashboard/profile_card.dart';
+import 'package:doctors_prescription/pages/doctor/components/drawer.dart';
 import 'package:doctors_prescription/providers/auth_bloc.dart';
 import 'package:doctors_prescription/providers/doctor_bloc.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/app_bar.dart';
-import 'file:///C:/Coding/Flutter/flutter_doctorsprescription/lib/components/doctor/drawer.dart';
 
 class DoctorDashboard extends StatefulWidget {
   @override
@@ -27,6 +29,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
   Widget build(BuildContext context) {
     AuthBloc authBloc = Provider.of<AuthBloc>(context);
     final DoctorBloc doctorBloc = Provider.of<DoctorBloc>(context);
+    CollectionReference doctorCollectionReference =
+        Firestore.instance.collection('Doctor');
     return Scaffold(
       appBar: DoctorAppBar(title: 'Dashboard'),
       drawer: DoctorAppDrawer(),
@@ -65,35 +69,83 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
                 style: kDashboardTitleTextStyle,
               ),
             ),
-            doctorBloc.isLoadingPatients
-                ? Center(
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-                    ),
-                  )
-                : doctorBloc.hasPatients
-                    ? Column(
-                        children: <Widget>[
-                          for (var patient in doctorBloc.patients)
-                            ItemCard(
-                              backgroundColor: Colors.green.shade200,
-                              avatarImage:
-                                  AssetImage('assets/icons/patient.png'),
-                              title: '${patient['username']}',
-                              content: [
-                                'EMAIL: ${patient['email']}',
-                              ],
+            Expanded(
+              child: FutureBuilder(
+                future: doctorCollectionReference
+                    .document(authBloc.userData.uid)
+                    .collection('Patients')
+                    .getDocuments(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError ||
+                      (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.data.documents.length == 0)) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/patient.png',
+                              width: 128.0,
                             ),
-                        ],
-                      )
-                    : Text(
-                        "Looks like you have no patients.",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Text(
+                              'No Patients Found.',
+                              style: TextStyle(
+                                fontSize: 21.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              'Looks like you don\'t have any patients. Click the add button to add more patients.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black45,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                    );
+                  }
+                  if (snapshot.hasData && snapshot.data.documents.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        PatientItem patientItem = PatientItem.fromJson(
+                            snapshot.data.documents[index].data);
+                        String age = Age.dateDifference(
+                                fromDate: patientItem.dateOfBirth,
+                                toDate: DateTime.now())
+                            .years
+                            .toString();
+                        return PatientItemCard(
+                          email: patientItem.email,
+                          age: '$age Years',
+                          gender: patientItem.gender,
+                          name: patientItem.username,
+                        );
+                      },
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
