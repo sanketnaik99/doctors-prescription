@@ -1,0 +1,74 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android",
+      "sdkFolder": "C:\\Android",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\build\\sdk\\intermediates",
+      "gradleModulePathName": ":sdk",
+      "moduleRootFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk",
+      "makeFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\libcxx_helper\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\.cxx",
+      "cxxFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx",
+      "ndkFolder": "C:\\Android\\ndk\\21.3.6528147",
+      "ndkVersion": "21.3.6528147",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "-DANDROID_STL\u003dc++_shared"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "debug",
+    "soFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\build\\sdk\\intermediates\\cmake\\debug\\lib",
+    "objFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\build\\sdk\\intermediates\\cmake\\debug\\obj",
+    "jsonFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug",
+    "gradleBuildOutputFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "buildTargetSet": [
+      "opencv_jni_shared"
+    ]
+  },
+  "abi": "ARM64_V8A",
+  "abiPlatformVersion": 21,
+  "cxxBuildFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a",
+  "jsonFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a",
+  "objFolder": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\build\\sdk\\intermediates\\cmake\\debug\\obj\\arm64-v8a",
+  "buildCommandFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\build_command.txt",
+  "buildOutputFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\build_output.txt",
+  "modelOutputFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\CMakeLists.txt",
+    "toolchainWrapperFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\build_generation_state.json",
+    "cacheKeyFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cxx\\debug\\arm64-v8a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\json_generation_record.json",
+  "compileCommandsJsonFile": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a\\compile_commands.json"
+}

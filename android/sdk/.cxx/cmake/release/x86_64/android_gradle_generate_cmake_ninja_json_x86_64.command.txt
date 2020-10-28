@@ -1,0 +1,15 @@
+Executable : C:\Android\cmake\3.6.4111459\bin\cmake.exe
+arguments : 
+-HC:\Coding\Flutter\flutter_doctorsprescription\android\sdk\libcxx_helper
+-BC:\Coding\Flutter\flutter_doctorsprescription\android\sdk\.cxx\cmake\release\x86_64
+-DANDROID_ABI=x86_64
+-DANDROID_PLATFORM=android-21
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Coding\Flutter\flutter_doctorsprescription\build\sdk\intermediates\cmake\release\obj\x86_64
+-DCMAKE_BUILD_TYPE=Release
+-DANDROID_NDK=C:\Android\ndk\21.3.6528147
+-DCMAKE_TOOLCHAIN_FILE=C:\Android\ndk\21.3.6528147\build\cmake\android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=C:\Android\cmake\3.6.4111459\bin\ninja.exe
+-GAndroid Gradle - Ninja
+-DANDROID_STL=c++_shared
+jvmArgs : 
+

@@ -49,17 +49,17 @@ class UserData {
   }
 }
 
-class Medicine {
-  final String category;
-  final String id;
-  final String image;
-  final String name;
-  final String weight;
-
-  Medicine(
-      {@required this.category,
-      @required this.id,
-      @required this.image,
-      @required this.name,
-      @required this.weight});
-}
+// class Medicine {
+//   final String category;
+//   final String id;
+//   final String image;
+//   final String name;
+//   final String weight;
+//
+//   Medicine(
+//       {@required this.category,
+//       @required this.id,
+//       @required this.image,
+//       @required this.name,
+//       @required this.weight});
+// }

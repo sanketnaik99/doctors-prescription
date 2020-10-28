@@ -1,0 +1,41 @@
+
+{
+	"buildFiles" : 
+	[
+		"C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/libcxx_helper/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"C:\\Android\\cmake\\3.6.4111459\\bin\\cmake.exe --build C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"opencv_jni_shared-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "opencv_jni_shared",
+			"buildCommand" : "C:\\Android\\cmake\\3.6.4111459\\bin\\cmake.exe --build C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\debug\\arm64-v8a --target opencv_jni_shared",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android21 --gcc-toolchain=C:/Android/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Android/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64/sysroot    -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/libcxx_helper/dummy.cpp",
+					"workingDirectory" : "C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/.cxx/cmake/debug/arm64-v8a"
+				}
+			],
+			"output" : "C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/.cxx/cmake/debug/arm64-v8a/libopencv_jni_shared.a",
+			"toolchain" : "3276883153"
+		}
+	},
+	"toolchains" : 
+	{
+		"3276883153" : 
+		{
+			"cCompilerExecutable" : "C:/Android/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/Android/ndk/21.3.6528147/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

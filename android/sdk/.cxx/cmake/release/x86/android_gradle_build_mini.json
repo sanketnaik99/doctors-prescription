@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\libcxx_helper\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\Android\\cmake\\3.6.4111459\\bin\\cmake.exe --build C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\release\\x86 --target clean"
+  ],
+  "libraries": {
+    "opencv_jni_shared-Release-x86": {
+      "artifactName": "opencv_jni_shared",
+      "buildCommand": "C:\\Android\\cmake\\3.6.4111459\\bin\\cmake.exe --build C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\release\\x86 --target opencv_jni_shared",
+      "abi": "x86",
+      "output": "C:\\Coding\\Flutter\\flutter_doctorsprescription\\android\\sdk\\.cxx\\cmake\\release\\x86\\libopencv_jni_shared.a"
+    }
+  }
+}

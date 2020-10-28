@@ -18,6 +18,14 @@ class PatientDashboard extends StatefulWidget {
 
 class _PatientDashboardState extends State<PatientDashboard> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Update Medicines
+    Provider.of<PatientBloc>(context, listen: false).updateMedicines();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final PatientBloc patientBloc = Provider.of<PatientBloc>(context);
     final AuthBloc authBloc = Provider.of<AuthBloc>(context);

@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/models/medicine.dart';
 import 'package:doctors_prescription/models/models.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 const String API_URL =
@@ -92,6 +95,21 @@ class PatientBloc extends ChangeNotifier {
   set currentPatient(UserData val) {
     _currentPatient = val;
     notifyListeners();
+  }
+
+  Future<void> updateMedicines() async {
+    final medicinesRef = _firestore.collection('Medicines');
+    final box = Hive.box(MEDICINES_BOX);
+    medicinesRef.getDocuments().then((QuerySnapshot docs) {
+      docs.documents.forEach((doc) {
+        print(doc.documentID);
+        box.put(doc.documentID, doc.data);
+      });
+      var list = box.keys;
+      print(list);
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   Future<void> scanPrescription(String imagePath) async {

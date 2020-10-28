@@ -1,0 +1,3 @@
+C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/.cxx/cmake/release/armeabi-v7a/CMakeFiles/opencv_jni_shared.dir
+C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/.cxx/cmake/release/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Coding/Flutter/flutter_doctorsprescription/android/sdk/.cxx/cmake/release/armeabi-v7a/CMakeFiles/rebuild_cache.dir

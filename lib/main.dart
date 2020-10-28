@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:doctors_prescription/constants.dart';
 import 'package:doctors_prescription/pages/auth/login.dart';
 import 'package:doctors_prescription/pages/auth/registration.dart';
 import 'package:doctors_prescription/pages/doctor/add_patient/scan_qr.dart';
@@ -16,6 +17,8 @@ import 'package:doctors_prescription/providers/patient_bloc.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 List<CameraDescription> cameras;
@@ -23,6 +26,8 @@ List<CameraDescription> cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
+  await Hive.initFlutter();
+  await Hive.openBox(MEDICINES_BOX);
   runApp(MyApp());
 }
 

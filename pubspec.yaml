@@ -29,6 +29,11 @@ dependencies:
   google_fonts: ^1.1.0 # NO WEB SUPPORT
   intl: ^0.16.1
   age: ^0.0.1
+  image_cropper: ^1.3.1
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.1
+
+
 
 
 

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
+import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:doctors_prescription/main.dart';
@@ -9,7 +9,7 @@ import 'package:doctors_prescription/pages/patient/components/app_bar.dart';
 import 'package:doctors_prescription/pages/patient/components/drawer.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as IMG;
+import 'package:image_cropper/image_cropper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -35,6 +35,7 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
   String imagePath;
   bool _isLoading = false;
   static final _base64SafeEncoder = const Base64Codec.urlSafe();
+  Isolate _isolate;
 
   @override
   void initState() {
@@ -43,31 +44,32 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
     initializeCamera();
   }
 
-  void initializeCamera() {
+  void initializeCamera() async {
     controller = CameraController(cameras[0], ResolutionPreset.max);
     _initializeControllerFuture = controller.initialize();
     return;
   }
 
-  Future<String> cropSquare(String srcFilePath, bool flip) async {
-    var bytes = await File(srcFilePath).readAsBytes();
-    IMG.Image src = IMG.decodeImage(bytes);
-
-    var cropSize = min(src.width, src.height);
-    int offsetX = (src.width - min(src.width, src.height)) ~/ 2;
-    int offsetY = (src.height - min(src.width, src.height)) ~/ 2;
-
-    IMG.Image destImage =
-        IMG.copyCrop(src, offsetX, offsetY, cropSize, cropSize);
-
-    if (flip) {
-      destImage = IMG.flipVertical(destImage);
+  Future<String> cropSquare(String srcFilePath) async {
+    File image = await ImageCropper.cropImage(
+      androidUiSettings: AndroidUiSettings(
+        statusBarColor: Colors.green,
+        toolbarColor: Colors.green,
+        toolbarTitle: 'Crop Image',
+        toolbarWidgetColor: Colors.white,
+      ),
+      sourcePath: srcFilePath,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+      ],
+    );
+    String destFilePath;
+    if (image != null) {
+      destFilePath = join((await getTemporaryDirectory()).path,
+          '${DateTime.now().millisecondsSinceEpoch}.png');
+      final File finalImage = await image.copy(destFilePath);
     }
-    final destFilePath = join((await getTemporaryDirectory()).path,
-        '${DateTime.now().millisecondsSinceEpoch}.png');
-    var jpg = IMG.encodeJpg(destImage);
 
-    await File(destFilePath).writeAsBytes(jpg);
     return destFilePath;
   }
 
@@ -96,19 +98,25 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
     setState(() {
       _isLoading = true;
     });
+
     final path = join((await getTemporaryDirectory()).path,
         '${DateTime.now().millisecondsSinceEpoch}.png');
     await controller.takePicture(path);
-    imagePath = await cropSquare(path, false);
+    imagePath = await cropSquare(path);
+    if (imagePath != null) {
+      setState(() {
+        //controller.dispose();
+      });
+      Navigator.of(context).pushReplacementNamed(
+        PATIENT_SCAN_RESULT,
+        arguments: PatientScanImageResult(
+          imagePath: imagePath,
+        ),
+      );
+    }
     setState(() {
-      controller.dispose();
+      _isLoading = false;
     });
-    Navigator.of(context).pushReplacementNamed(
-      PATIENT_SCAN_RESULT,
-      arguments: PatientScanImageResult(
-        imagePath: imagePath,
-      ),
-    );
   }
 
   @override
@@ -128,7 +136,7 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
                 children: <Widget>[
                   Container(
                     color: Colors.white,
-                    height: 100.0,
+                    height: 80.0,
                     child: Center(
                       child: Text(
                         'Place a prescription in front of the camera',
@@ -142,40 +150,36 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
                       ),
                     ),
                   ),
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: ClipRect(
-                      child: Transform.scale(
-                        scale: 1 / controller.value.aspectRatio,
-                        child: Center(
-                          child: AspectRatio(
-                            aspectRatio: controller.value.aspectRatio,
-                            child: CameraPreview(controller),
-                          ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: _isLoading
+                              ? SizedBox()
+                              : CameraPreview(controller),
                         ),
-                      ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: _isLoading
+                              ? Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: CircularProgressIndicator(),
+                                )
+                              : IconButton(
+                                  icon: Icon(
+                                    Icons.camera,
+                                    color: Colors.white,
+                                  ),
+                                  iconSize: 70.0,
+                                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                                  onPressed: () async {
+                                    captureImage(context);
+                                  },
+                                ),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      color: Colors.grey[300],
-                      child: Center(
-                        child: _isLoading
-                            ? CircularProgressIndicator()
-                            : IconButton(
-                                icon: Icon(
-                                  Icons.camera,
-                                  color: Colors.black,
-                                ),
-                                iconSize: 70.0,
-                                padding: EdgeInsets.symmetric(vertical: 20.0),
-                                onPressed: () async {
-                                  captureImage(context);
-                                },
-                              ),
-                      ),
-                    ),
-                  )
                 ],
               );
             } else {

@@ -7,6 +7,7 @@ import 'package:doctors_prescription/pages/patient/components/drawer.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PatientScanResult extends StatefulWidget {
   @override
@@ -17,6 +18,11 @@ class _PatientScanResultState extends State<PatientScanResult> {
   bool _isLoading = false;
   String _message = '';
   Color _messageColor = Colors.white;
+  String _imagePath = '';
+  String _imagePath2 = '';
+
+  static const platform =
+      const MethodChannel('com.example.flutter_doctorsprescription/pipeline');
 
   predictMedicine(String imagePath) async {
     Dio dio = new Dio();
@@ -41,7 +47,7 @@ class _PatientScanResultState extends State<PatientScanResult> {
         print(result['prediction']);
         setState(() {
           _isLoading = false;
-          _message = 'SUCCESS!';
+          _message = 'SUCCESS!\n${result['prediction']}';
           _messageColor = Colors.green;
         });
       } else {
@@ -62,10 +68,40 @@ class _PatientScanResultState extends State<PatientScanResult> {
     }
   }
 
+  dpPipeline(String imagePath) async {
+    setState(() {
+      _isLoading = true;
+    });
+    print(imagePath);
+    try {
+      var result =
+          await platform.invokeMethod('pipeline', {"imagePath": imagePath});
+      print("RESULT $result");
+      setState(() {
+        _isLoading = false;
+        _imagePath = result[0];
+        _message = 'SUCCESS!\n${result[1]}';
+        _messageColor = Colors.green;
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      final PatientScanImageResult result =
+          ModalRoute.of(context).settings.arguments;
+      setState(() {
+        _imagePath = result.imagePath;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PatientScanImageResult result =
-        ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: PatientAppBar(title: 'Scan Result'),
       drawer: PatientDrawer(),
@@ -90,7 +126,9 @@ class _PatientScanResultState extends State<PatientScanResult> {
             ),
           ),
           Image.file(
-            File(result.imagePath),
+            File(_imagePath),
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
           ),
           Expanded(
             child: Container(
@@ -127,7 +165,8 @@ class _PatientScanResultState extends State<PatientScanResult> {
                               ),
                               FlatButton(
                                 onPressed: () {
-                                  predictMedicine(result.imagePath);
+                                  // predictMedicine(_imagePath);
+                                  dpPipeline(_imagePath);
                                 },
                                 padding: const EdgeInsets.all(30.0),
                                 child: Row(
@@ -152,7 +191,9 @@ class _PatientScanResultState extends State<PatientScanResult> {
                               )
                             ],
                           ),
-                    SizedBox(height: 20.0,),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     _message == ''
                         ? SizedBox()
                         : Padding(
