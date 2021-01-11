@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class UserDetailRow extends StatelessWidget {
+class DetailRow extends StatelessWidget {
   final String data;
   final String title;
 
-  UserDetailRow({this.title, this.data});
+  DetailRow({this.title, this.data});
 
   @override
   Widget build(BuildContext context) {

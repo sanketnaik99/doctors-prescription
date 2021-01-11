@@ -105,8 +105,6 @@ class PatientBloc extends ChangeNotifier {
         print(doc.documentID);
         box.put(doc.documentID, doc.data);
       });
-      var list = box.keys;
-      print(list);
     }).catchError((err) {
       print(err);
     });

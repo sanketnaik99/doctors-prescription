@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:doctors_prescription/constants.dart';
+import 'package:doctors_prescription/models/medicine.dart';
 import 'package:doctors_prescription/models/patient.dart';
 import 'package:doctors_prescription/pages/patient/components/app_bar.dart';
-import 'package:doctors_prescription/pages/patient/components/drawer.dart';
+import 'package:doctors_prescription/pages/patient/scan_prescription/add_medicine.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 class PatientScanResult extends StatefulWidget {
   @override
@@ -77,13 +81,48 @@ class _PatientScanResultState extends State<PatientScanResult> {
       var result =
           await platform.invokeMethod('pipeline', {"imagePath": imagePath});
       print("RESULT $result");
+      final box = Hive.box(MEDICINES_BOX);
+      var values = box.keys;
+      List<String> preds = result[1].toString().split(' ');
+      List<String> valuesString = List<String>.from(values);
+      List<Medicine> predictions = [];
+      preds.forEach((prediction) {
+        var matches = prediction.bestMatch(valuesString);
+        print(matches.bestMatch.toString());
+        if (matches.bestMatch.rating > 0.6) {
+          String match = matches.bestMatch.target;
+          Medicine matchedMedicine = Medicine.fromJson(box.get(match));
+          predictions.add(matchedMedicine);
+        }
+      });
+      if (predictions.length > 0) {
+        setState(() {
+          _isLoading = false;
+          _imagePath = result[0];
+          _message = 'SUCCESS!';
+          _messageColor = Colors.green;
+        });
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pushNamed(
+            PATIENT_ADD_MEDICINE,
+            arguments: AddMedicineArguments(medicines: predictions),
+          );
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+          _imagePath = imagePath;
+          _message = 'ERROR! No Matches Found.\nPlease try again';
+          _messageColor = Colors.red;
+        });
+      }
+    } catch (err) {
       setState(() {
         _isLoading = false;
-        _imagePath = result[0];
-        _message = 'SUCCESS!\n${result[1]}';
-        _messageColor = Colors.green;
+        _imagePath = imagePath;
+        _message = 'ERROR! No Matches Found.\nPlease try again';
+        _messageColor = Colors.red;
       });
-    } catch (err) {
       print(err);
     }
   }
@@ -104,7 +143,6 @@ class _PatientScanResultState extends State<PatientScanResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PatientAppBar(title: 'Scan Result'),
-      drawer: PatientDrawer(),
       body: Column(
         children: [
           Container(

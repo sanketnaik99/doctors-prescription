@@ -1,4 +1,4 @@
-import 'package:doctors_prescription/components/userDetailRow.dart';
+import 'package:doctors_prescription/components/detail_row.dart';
 import 'package:flutter/material.dart';
 
 class PatientProfileCard extends StatelessWidget {
@@ -35,7 +35,7 @@ class PatientProfileCard extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: UserDetailRow(
+                        child: DetailRow(
                           title: 'Name',
                           data: this.name,
                         ),
@@ -48,7 +48,7 @@ class PatientProfileCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      UserDetailRow(
+                      DetailRow(
                         title: 'Email',
                         data: this.email,
                       )
@@ -60,13 +60,13 @@ class PatientProfileCard extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: UserDetailRow(
+                        child: DetailRow(
                           title: 'Gender',
                           data: this.gender,
                         ),
                       ),
                       Expanded(
-                        child: UserDetailRow(
+                        child: DetailRow(
                           title: 'Age',
                           data: this.age,
                         ),

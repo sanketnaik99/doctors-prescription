@@ -6,7 +6,6 @@ import 'package:camera/camera.dart';
 import 'package:doctors_prescription/main.dart';
 import 'package:doctors_prescription/models/patient.dart';
 import 'package:doctors_prescription/pages/patient/components/app_bar.dart';
-import 'package:doctors_prescription/pages/patient/components/drawer.dart';
 import 'package:doctors_prescription/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -123,7 +122,6 @@ class _PatientScanPrescriptionState extends State<PatientScanPrescription>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PatientAppBar(title: 'Scan Prescription'),
-      drawer: PatientDrawer(),
       body: Container(
         color: Colors.white,
         child: FutureBuilder(

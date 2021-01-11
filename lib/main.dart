@@ -7,6 +7,7 @@ import 'package:doctors_prescription/pages/doctor/add_patient/scan_result.dart';
 import 'package:doctors_prescription/pages/doctor/dashboard.dart';
 import 'package:doctors_prescription/pages/patient/dashboard.dart';
 import 'package:doctors_prescription/pages/patient/prescriptionScan.dart';
+import 'package:doctors_prescription/pages/patient/scan_prescription/add_medicine.dart';
 import 'package:doctors_prescription/pages/patient/scan_prescription/scan_prescription.dart';
 import 'package:doctors_prescription/pages/patient/scan_prescription/scan_result.dart';
 import 'package:doctors_prescription/pages/patient/showQR.dart';
@@ -62,9 +63,11 @@ class MyApp extends StatelessWidget {
           DOCTOR_SCAN_QR: (context) => ScanQRPage(),
           DOCTOR_SCAN_RESULT: (context) => ScanResultPage(),
 
+          // PATIENT ROUTE
           PATIENT_DASHBOARD: (context) => PatientDashboard(),
           PATIENT_SCAN_PRESCRIPTION: (context) => PatientScanPrescription(),
           PATIENT_SCAN_RESULT: (context) => PatientScanResult(),
+          PATIENT_ADD_MEDICINE: (context) => PatientAddMedicine(),
 
           PATIENT_PRESCRIPTION_SCAN: (context) => PrescriptionScan(),
 

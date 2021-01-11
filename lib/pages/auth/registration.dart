@@ -1,6 +1,6 @@
 import 'package:age/age.dart';
+import 'package:doctors_prescription/components/detail_row.dart';
 import 'package:doctors_prescription/components/doctorPatientCard.dart';
-import 'package:doctors_prescription/components/userDetailRow.dart';
 import 'package:doctors_prescription/constants.dart';
 import 'package:doctors_prescription/models/models.dart';
 import 'package:doctors_prescription/providers/auth_bloc.dart';
@@ -739,14 +739,14 @@ class _RegistrationState extends State<Registration> {
                 Expanded(
                   child: Column(
                     children: [
-                      UserDetailRow(
+                      DetailRow(
                         title: 'Name',
                         data: _userName,
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
-                      UserDetailRow(
+                      DetailRow(
                         title: 'Email',
                         data: _userEmail,
                       ),
@@ -764,13 +764,13 @@ class _RegistrationState extends State<Registration> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    child: UserDetailRow(
+                    child: DetailRow(
                       data: _userDOBText,
                       title: 'Date of Birth',
                     ),
                   ),
                   Expanded(
-                    child: UserDetailRow(
+                    child: DetailRow(
                       data: _userGender,
                       title: 'Gender',
                     ),
@@ -787,13 +787,13 @@ class _RegistrationState extends State<Registration> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    child: UserDetailRow(
+                    child: DetailRow(
                       data: '${_userWeight.toString()}Kg',
                       title: 'Weight',
                     ),
                   ),
                   Expanded(
-                    child: UserDetailRow(
+                    child: DetailRow(
                       data: '${_userHeight.toString()}cm',
                       title: 'Height',
                     ),

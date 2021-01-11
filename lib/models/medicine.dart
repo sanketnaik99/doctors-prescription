@@ -6,6 +6,7 @@ class Medicine {
   final String image;
   final String name;
   final String weight;
+  bool hasAddedReminder = false;
 
   Medicine({
     @required this.category,
@@ -13,6 +14,7 @@ class Medicine {
     @required this.image,
     @required this.name,
     @required this.weight,
+    this.hasAddedReminder,
   });
 
   factory Medicine.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class Medicine {
       image: json['image'],
       name: json['name'],
       weight: json['weight'],
+      hasAddedReminder: false,
     );
   }
 }

@@ -8,6 +8,7 @@ class DoctorAppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
+        color: Colors.blueAccent,
         child: Column(
           children: [
             Container(
@@ -41,6 +42,8 @@ class DoctorAppDrawer extends StatelessWidget {
                 "Dashboard",
                 style: TextStyle(
                   fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -52,6 +55,8 @@ class DoctorAppDrawer extends StatelessWidget {
                 "Add Patient",
                 style: TextStyle(
                   fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -65,6 +70,8 @@ class DoctorAppDrawer extends StatelessWidget {
                 "Logout",
                 style: TextStyle(
                   fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
