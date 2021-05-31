@@ -1,6 +1,6 @@
-![Doctor's Prescription System with Handwriting Recognition](docs/github-banner.png)
+![Doctor's Prescription System](docs/github-banner.png)
 
-# Doctor's Prescription System with Handwriting Recognition
+# Doctor's Prescription System
 
 This project explores the the viability of handwriting recognition to recognize the names of medicines from a doctor's prescription. This is done using a Convolutional Neural Network (CNN). The app is connected to a Flask backend which hosts the model and predicts the names of medicines from a given image.
 
