@@ -38,3 +38,8 @@ lib/generated_plugin_registrant.dart
 
 
 android/app/google-services.json
+
+android/sdk/etc
+android/sdk/java
+android/sdk/libcxx_helper
+android/sdk/native

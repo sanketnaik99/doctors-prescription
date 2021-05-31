@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final AuthBloc authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       body: Form(
         key: _formKey,
