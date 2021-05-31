@@ -25,6 +25,11 @@ The project can be divided into two distinct components as follows -
     - [Step 7: Result](#step-7-result)
 - [Android App](#android-app)
   - [Technologies Used](#technologies-used-1)
+  - [Sign In Page](#sign-in-page)
+  - [Sign Up Page](#sign-up-page)
+  - [Doctor's Dashboard Page](#doctors-dashboard-page)
+  - [Patient's Dashboard Page](#patients-dashboard-page)
+  - [Prescription Scanning](#prescription-scanning)
 
 # Handwriting Recognition Pipeline
 
