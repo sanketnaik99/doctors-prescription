@@ -2,7 +2,7 @@
 
 # Doctor's Prescription System with Handwriting Recognition
 
-This project explores the the viability of handwriting recognition to recognize the names of medicines from a doctor's prescription. This is done using a Convolutional Neural Network (CNN) developed using the Tensorflow Framework and OpenCV.
+This project uses handwriting recognition to recognize the names of medicines from a doctor's prescription. This is done using a Convolutional Neural Network (CNN) developed using the Tensorflow Framework and OpenCV.
 
 The project can be divided into two distinct components as follows -
 
